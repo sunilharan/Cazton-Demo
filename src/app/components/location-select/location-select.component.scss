@@ -1,0 +1,45 @@
+@mixin normal-font-style {
+  font-size: var(--font-size-normal) !important;
+  font-weight: var(--font-weight-normal-500);
+}
+
+ion-toolbar {
+  padding-top: 0px !important;
+}
+
+.down-arrow {
+  font-size: 24px;
+}
+
+.search-toolbar {
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
+.location-item {
+  --padding-start: 0px;
+  --background: transparent;
+  & ion-avatar {
+    font-size: 22px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0px;
+    width: 28px;
+    &.location-icon {
+    }
+  }
+  & .find-location-lbl {
+    font-family: "Poppins";
+    @include normal-font-style();
+  }
+  & .location-lbl {
+    & .location-name,
+    & .location-address {
+      @include normal-font-style();
+      line-height: 1.2;
+      margin-top: 4px;
+      white-space: initial;
+    }
+  }
+}

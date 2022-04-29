@@ -1,0 +1,60 @@
+.restaurant-info-detail-wrapper {
+  position: relative;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 80px);
+  & .close-btn-wrapper {
+    position: absolute;
+    right: 0px;
+    top: 8px;
+    .down-arrow {
+      font-size: 35px;
+    }
+  }
+  & .content-wrapper {
+    .title-text {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 30px;
+      font-family: "Poppins";
+      padding-top: 40px;
+      margin-top: 0px;
+      color: var(--primary-text);
+    }
+
+    .ttl {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--primary-text);
+      margin-top: 17px;
+    }
+
+    .desc {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 21px;
+      color: var(--tertiary-text);
+    }
+
+    .detail-text {
+      font-family: "Poppins";
+      font-size: 13px;
+      line-height: 115%;
+      color: var(--light-text);
+    }
+  }
+}
+
+p {
+  line-height: 10px;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+img {
+  width: 50px;
+  margin-right: 5px;
+}
+
+ion-skeleton-text {
+  height: 20px;
+}

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="top-bar">
+      <div class="already-have-ac-text">
+        {{'already-have-account' | translate}}
+      </div>
+      <div class="login-text" (click)="goToLogin()">
+        <ion-icon src="assets/icons/logout.svg"></ion-icon>
+        {{'login' | translate}}
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="intro-wrapper">
+    <div class="logo-title-text">{{'logo-text' | translate}}</div>
+    <div class="welcome-text">{{'welcome-text' | translate}}</div>
+    <div class="greeting-text">{{'greeting-text'|translate}}</div>
+  </div>
+  <div class="button-container">
+    <ion-button
+      *ngIf="platform.is('ios')"
+      class="theme-button"
+      expand="block"
+      color="theme-dark"
+    >
+      <ion-icon class="apple-icon" slot="start" name="logo-apple"></ion-icon>
+      {{'sign_in.apple' | translate}}
+    </ion-button>
+    <ion-button
+      *ngIf="platform.is('ios')"
+      class="theme-button"
+      expand="block"
+      color="theme-blue"
+    >
+      <ion-icon slot="start" src="assets/icons/facebook.svg"></ion-icon>
+      {{'sign_in.facebook' | translate}}
+    </ion-button>
+    <ion-button
+      class="theme-button"
+      expand="block"
+      color="white"
+      (click)="googleLogin()"
+    >
+      <ion-icon
+        class="google-icon"
+        slot="start"
+        src="assets/icons/google.svg"
+      ></ion-icon>
+      {{'sign_in.google' | translate}}
+    </ion-button>
+    <ion-button
+      class="theme-button"
+      expand="block"
+      color="theme-green"
+      (click)="goToRegister()"
+    >
+      <ion-icon
+        class="email"
+        slot="start"
+        src="assets/icons/email.svg"
+      ></ion-icon>
+      {{'sign_in.email' | translate}}
+    </ion-button>
+    <div class="divider"></div>
+    <ion-button
+      class="theme-button"
+      expand="block"
+      color="theme-light"
+      (click)="goToDashboard()"
+    >
+      {{'sign_in.guest' | translate}}
+    </ion-button>
+  </div>
+</ion-content>

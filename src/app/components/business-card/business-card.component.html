@@ -1,0 +1,179 @@
+<div
+  class="business-card card"
+  (click)="cardClicked.emit(); $event.stopPropagation()"
+  [ngClass]="{ 'p-10': page === 'mapbox' }"
+>
+  <div style="position: relative" *ngIf="page === 'home' || page === 'mapbox'">
+    <img
+      class="fade-in"
+      defaultImage="assets/images/placeholder/banner-placeholder.jpg"
+      [lazyLoad]="restaurant?.webbanner"
+      onerror="this.src=
+      'assets/images/placeholder/banner-placeholder.jpg'"
+      [ngClass]="{ 'map-img': page === 'mapbox' }"
+    />
+
+    <div class="rating-wrapper">
+      <div class="google">
+        <span class="google-rating">
+          {{ restaurant?.averageRating | number: '1.0-2' }}
+        </span>
+        <ion-icon name="star"></ion-icon>
+        <span class="rating">({{ restaurant?.countRatings }})</span>
+      </div>
+    </div>
+    <ng-container *ngIf="!isItemWishListed">
+      <ion-badge
+        slot="fixed"
+        class="count-badge"
+        (click)="addToWishlist(); $event.stopPropagation()"
+      >
+        <ion-icon name="heart-outline"></ion-icon>
+      </ion-badge>
+    </ng-container>
+    <ng-container *ngIf="isItemWishListed">
+      <ion-badge
+        slot="fixed"
+        class="count-badge"
+        (click)="removeFromWishlist(); $event.stopPropagation()"
+      >
+        <ion-icon name="heart"></ion-icon>
+      </ion-badge>
+    </ng-container>
+  </div>
+  <div class="business-details">
+    <div class="logo-wrapper">
+      <img
+        defaultImage="assets/images/placeholder/logo-placeholder.jpg"
+        [lazyLoad]="restaurant?.logo"
+        onerror="this.src=
+        'assets/images/placeholder/logo-placeholder.jpg'"
+      />
+    </div>
+    <div
+      class="details-wrapper"
+      [ngClass]="{ 'map-detail': page === 'mapbox' }"
+    >
+      <div class="title-wrapper" *ngIf="page === 'home' || page === 'mapbox'">
+        <div class="title" [innerHTML]="restaurant?.name"></div>
+      </div>
+
+      <ion-header
+        *ngIf="page === 'category'"
+        collapse="condense"
+        mode="ios"
+        class="ion-no-border"
+      >
+        <ion-toolbar class="category-toolbar">
+          <ion-title
+            style="margin-top: 0px !important"
+            class="title"
+            [innerHTML]="restaurant?.name"
+          >
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <div class="location" *ngIf="page === 'category'">
+        {{ restaurant?.street }}, {{ restaurant?.city }}
+      </div>
+      <div
+        class="details"
+        [ngClass]="{ 'rest-tag': page === 'mapbox' }"
+        *ngIf="page === 'home' || page === 'mapbox'"
+      >
+        <div class="price-level">
+          <app-price-level [price]="restaurant?.price_level"></app-price-level>
+        </div>
+        <div class="cuisins" *ngIf="restaurant?.tags?.length > 0">
+          · {{ restaurant?.tags?.join(', ') }}
+        </div>
+      </div>
+      <div
+        class="duration-details"
+        [ngClass]="{ 'map-duration': page === 'mapbox' }"
+      >
+        <div class="option" *ngIf="restaurant?.opentext">
+          <!-- <ion-icon class="option-icon" src="assets/icons/clock.svg"></ion-icon> -->
+          <ion-icon
+            class="option-icon"
+            style="font-size: 16px"
+            name="time-outline"
+          ></ion-icon>
+          <div>
+            {{ restaurant?.opentext }}
+          </div>
+        </div>
+        <div class="option" *ngIf="restaurant?.cart?.minimum > 0">
+          <ion-icon
+            class="option-icon"
+            src="assets/icons/vehicle.svg"
+          ></ion-icon>
+          <div>{{ restaurant?.cart?.shipping / 100 }}€</div>
+        </div>
+        <div class="option" *ngIf="restaurant?.cart?.minimum > 0">
+          <ion-icon
+            class="option-icon"
+            src="assets/icons/bag-empty.svg"
+          ></ion-icon>
+          <div>Min {{ restaurant?.cart?.minimum / 100 }}€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="page === 'category'">
+    <div class="extra-details">
+      <div class="rating-options">
+        <div class="google">
+          <ion-icon src="assets/icons/google.svg"></ion-icon>
+          <span class="lg">
+            {{ restaurant?.averageRating | number: '1.2-2' }}
+          </span>
+        </div>
+        <div class="rating">
+          <ion-icon name="star"></ion-icon>
+          <span class="lg"> ({{ restaurant?.countRatings }}) </span>
+        </div>
+        <div class="instagram">
+          <ion-icon src="assets/icons/instagram.svg"></ion-icon>
+        </div>
+        <div class="facebook">
+          <ion-icon src="assets/icons/facebook-icon.svg"></ion-icon>
+        </div>
+      </div>
+      <div class="price-level">
+        <app-price-level [price]="restaurant?.price_level"></app-price-level>
+      </div>
+    </div>
+    <div class="about-us" *ngIf="restaurant?.aboutus">
+      <div [innerHTML]="restaurant?.aboutus"></div>
+      <span (click)="showMore = !showMore">
+        {{ !showMore ? 'Learn More' : 'Show less' }}
+      </span>
+    </div>
+
+    <div
+      class="delivery-info-wrapper"
+      *ngIf="showNotificationText && restaurant?.notificationtext"
+    >
+      <div class="info-text" [innerHTML]="restaurant?.notificationtext"></div>
+      <div class="ok-btn" (click)="closeToast('notificationtext')">
+        {{ 'okay' | translate }}
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- <div
+  class="delivery-info-wrapper disabled"
+  *ngIf="
+    showDisableText &&
+    page === 'category' &&
+    !restaurant?.enabled &&
+    restaurant?.disabledtext
+  "
+>
+  <div class="info-text" [innerHTML]="restaurant?.disabledtext"></div>
+  <div class="ok-btn" (click)="closeToast('disabledtext')">
+    {{ "okay" | translate }}
+  </div>
+</div> -->

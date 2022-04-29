@@ -1,0 +1,97 @@
+<app-header
+  title="order-history"
+  [showBackButton]="true"
+  (back)="back()"
+></app-header>
+
+<ion-content class="ion-padding">
+  <div class="wrapper order-detail">
+    <div class="header title-text">
+      {{'order-overview-page.order-detail' | translate}}
+    </div>
+    <div class="transaction-title">#{{orderDetails?.id}}</div>
+    <div class="adress-wrapper">
+      <p>{{orderDetails?.business?.name}}</p>
+      <p>{{orderDetails?.business?.address}}</p>
+      <p>Tel.:{{orderDetails?.business?.telephone}}</p>
+    </div>
+    <div class="payment-detail">
+      <p>{{orderDetails?.ordertime}}</p>
+      <p>{{orderDetails?.delivertime}}</p>
+      <p>{{orderDetails?.payment}}</p>
+    </div>
+  </div>
+
+  <div class="wrapper customer-detail">
+    <div class="header title-text">
+      {{'order-overview-page.customer-detail' | translate}}
+    </div>
+    <div class="adress-wrapper">
+      <p>{{orderDetails?.customer?.name}}</p>
+      <p>{{orderDetails?.customer?.address}}</p>
+      <p>{{orderDetails?.customer?.telephone}}</p>
+      <p>{{orderDetails?.customer?.email}}</p>
+      <p>{{deliveryType}}</p>
+    </div>
+  </div>
+
+  <div class="wrapper order-overview">
+    <div class="header title-text">
+      {{'order-overview-page.order-overview' | translate}}
+    </div>
+    <div class="item-wrapper">
+      <ion-item class="order-item" *ngFor="let item of orderDetails?.dishes">
+        <ion-text class="qty-text">{{ item.qty }}x</ion-text>
+        <ion-label>
+          <h3 class="item-text">{{ item?.name }}</h3>
+          <p class="item-detail" *ngIf="item?.variant">{{ item?.variant }}</p>
+          <ion-text *ngIf="item?.extras && item?.extras?.length>0">
+            <p class="item-detail" *ngFor="let data of item?.extras">
+              + {{ data }}
+            </p>
+          </ion-text>
+          <p class="item-detail" *ngIf="item?.comment">{{ item?.comment }}</p>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text class="price-text">
+            {{ item?.total | currency: 'EUR':'symbol-narrow':'1.2-2'}}
+          </ion-text>
+        </ion-note>
+      </ion-item>
+      <ion-item class="order-item">
+        <ion-label>
+          <p class="item-title">
+            {{'order-overview-page.subtotal' | translate}}
+          </p>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text class="total-price-text">
+            {{subTotal | currency: 'EUR':'symbol-narrow':'1.2-2'}}
+          </ion-text>
+        </ion-note>
+      </ion-item>
+      <ion-item class="order-item">
+        <ion-label>
+          <p class="item-title">
+            {{'order-overview-page.delivery-charge' | translate}}
+          </p>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text class="total-price-text">
+            {{deliveryCharge | currency: 'EUR':'symbol-narrow':'1.2-2'}}
+          </ion-text>
+        </ion-note>
+      </ion-item>
+      <ion-item class="order-item">
+        <ion-label>
+          <p class="item-title">{{'order-overview-page.total' | translate}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text class="final-price-text">
+            {{total | currency: 'EUR':'symbol-narrow':'1.2-2'}}
+          </ion-text>
+        </ion-note>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,190 @@
+<ion-header class="custom-header" mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button
+        fill="clear"
+        class="reset-filter"
+        color="link"
+        (click)="resetFilter()"
+      >
+        <!-- <ion-icon color="primary" name="refresh-outline"></ion-icon> -->
+        {{ 'reset-filter' | translate }}
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="ios">{{ 'filter' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="close-icon" (click)="close()">
+        <ion-icon color="primary" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="delivery-option-wrapper">
+    <div>
+      <ion-chip
+        class="delivery-option"
+        [class]="filterDeliveryOnly ? 'dark' : 'light'"
+        (click)="filterDeliveryOnly = !filterDeliveryOnly"
+      >
+        <span>
+          {{ 'delivery' | translate }}
+        </span>
+      </ion-chip>
+      <ion-chip
+        class="delivery-option"
+        [class]="filterPickupOnly ? 'dark' : 'light'"
+        (click)="filterPickupOnly = !filterPickupOnly"
+      >
+        <span>
+          {{ 'pick-up' | translate }}
+        </span>
+      </ion-chip>
+
+      <ion-chip
+        class="delivery-option open-now"
+        [class]="openedNow ? 'dark' : 'light'"
+        (click)="openedNow = !openedNow"
+      >
+        <span>
+          {{ 'opened-now' | translate }}
+        </span>
+      </ion-chip>
+    </div>
+    <!-- <div style="flex: 1">
+      <ion-chip
+        class="reset-filter"
+        mode="ios"
+        outline="true"
+        color="link"
+        (click)="resetFilter()"
+      >
+        {{ "reset-filter" | translate }}
+      </ion-chip>
+    </div> -->
+  </div>
+  <div class="slider-cmp">
+    <div class="option-title">
+      {{ 'minimum-order-amount' | translate }}
+    </div>
+    <div class="range-slider">
+      <ion-range
+        min="500"
+        max="2000"
+        step="500"
+        snaps="true"
+        ticks="false"
+        mode="md"
+        color="primary"
+        [(ngModel)]="minimumOrderAmount"
+      ></ion-range>
+    </div>
+    <div class="step-indicators">
+      <div>
+        <ng-container
+          *ngIf="minimumOrderAmount < 2000; else minimumOrderAmountCmp"
+        >
+          {{ minimumOrderAmount / 100 | currency: 'EUR':'symbol':'1.2-2':'fr' }}
+        </ng-container>
+        <ng-template #minimumOrderAmountCmp> max. </ng-template>
+      </div>
+      <!-- <div>10€</div>
+      <div>15€</div>
+      <div>max</div> -->
+    </div>
+  </div>
+  <div class="slider-cmp">
+    <div class="option-title">
+      {{ 'delivery-costs' | translate }}
+    </div>
+    <div class="range-slider">
+      <ion-range
+        min="0"
+        max="400"
+        step="100"
+        snaps="true"
+        ticks="false"
+        mode="md"
+        color="primary"
+        [(ngModel)]="deliveryCost"
+      ></ion-range>
+    </div>
+    <div class="step-indicators">
+      <div>
+        <ng-container *ngIf="deliveryCost < 400; else deliveryCostCmp">
+          {{ deliveryCost / 100 | currency: 'EUR':'symbol':'1.2-2':'fr' }}
+        </ng-container>
+        <ng-template #deliveryCostCmp> max. </ng-template>
+      </div>
+      <!--  <div>0€</div>
+      <div>1€</div>
+      <div>2€</div>
+      <div>3€</div>
+      <div>max</div> -->
+    </div>
+  </div>
+  <div class="price-level-wrapper">
+    <div class="option-title">
+      {{ 'price-level' | translate }}
+    </div>
+    <div class="price-tags">
+      <ion-chip
+        [class]="checkPriceSelected(0) ? 'dark' : 'light'"
+        (click)="addRemovePriceTag(0)"
+      >
+        <span> € </span>
+      </ion-chip>
+      <ion-chip
+        [class]="checkPriceSelected(1) ? 'dark' : 'light'"
+        (click)="addRemovePriceTag(1)"
+      >
+        <span> €€ </span>
+      </ion-chip>
+      <ion-chip
+        [class]="checkPriceSelected(2) ? 'dark' : 'light'"
+        (click)="addRemovePriceTag(2)"
+      >
+        <span> €€€ </span>
+      </ion-chip>
+      <ion-chip
+        [class]="checkPriceSelected(3) ? 'dark' : 'light'"
+        (click)="addRemovePriceTag(3)"
+      >
+        <span> €€€€ </span>
+      </ion-chip>
+    </div>
+  </div>
+  <div class="cuisins-wrapper">
+    <div class="option-title">
+      {{ 'cuisines' | translate }}
+    </div>
+    <div class="cuisins-list">
+      <ion-item
+        lines="none"
+        mode="md"
+        class="no-ripple"
+        *ngFor="let cuisin of cuisinsList"
+      >
+        <ion-label>{{ cuisin }}</ion-label>
+        <ion-checkbox
+          (ionChange)="onChkChange($event)"
+          color="primary"
+          slot="start"
+          [value]="cuisin"
+          [checked]="checkCuisinSelected(cuisin)"
+        ></ion-checkbox>
+      </ion-item>
+    </div>
+  </div>
+  <div class="footer-button-wrapper" slot="fixed">
+    <ion-button
+      size="block"
+      class="theme-button"
+      color="primary"
+      (click)="applyFilter()"
+    >
+      {{ 'apply' | translate }}
+    </ion-button>
+  </div>
+</ion-content>

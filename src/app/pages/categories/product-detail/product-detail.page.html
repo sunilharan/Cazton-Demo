@@ -1,0 +1,317 @@
+<ion-content [forceOverscroll]="false" class="theme-content">
+  <div
+    class="product-detail-wrapper"
+    [class.full-height]="!isLoading && !dish?.id"
+  >
+    <div class="close-btn-wrapper">
+      <ion-icon
+        (click)="back()"
+        color="primary"
+        class="down-arrow"
+        name="chevron-down-outline"
+      ></ion-icon>
+    </div>
+    <ng-container *ngIf="!isLoading && dish?.id">
+      <div class="content-wrapper">
+        <div class="image-wrapper" *ngIf="dish?.hasimage">
+          <img *ngIf="dish?.hasimage" [src]="dish?.image" />
+          <img *ngIf="!dish?.hasimage" src="assets/icons/logo-icon.svg" />
+        </div>
+        <div class="product-base-details">
+          <div class="details-col">
+            <div class="name-row">
+              <div class="name">{{uiService.fixEncoding(dish?.name)}}</div>
+              <ng-container *ngIf="dish?.tags?.length > 0">
+                <img *ngFor="let tag of dish?.tags" [src]="tag?.icon" />
+              </ng-container>
+            </div>
+            <div class="description">{{dish?.description}}</div>
+          </div>
+          <div class="alert-icon-col" *ngIf="dish?.ingredients">
+            <ion-icon class="alert-icon" src="assets/icons/alert-sharp.svg">
+            </ion-icon>
+          </div>
+        </div>
+        <div
+          class="size-detail-wrapper"
+          *ngIf="dish?.hasextras&&dish?.variants.length>1"
+        >
+          <div
+            class="choose-extras-top-content"
+            (click)="isSizeOpen = !isSizeOpen;"
+          >
+            <div>
+              <div class="size-text">{{'size' | translate}}</div>
+              <div class="size-desc">
+                {{ selectedVariant?.name ? selectedVariant.name :('make-choice'
+                | translate)}}
+              </div>
+            </div>
+            <ion-icon
+              class="select-extras-arrow"
+              [class.is-collapsed-icon]="isSizeOpen"
+              name="chevron-down-outline"
+            ></ion-icon>
+          </div>
+          <div
+            class="size-choice-list"
+            [class.is-collapsed]="isSizeOpen"
+            [class.is-not-collapsed]="!isSizeOpen"
+          >
+            <ion-radio-group
+              (ionChange)="selectVariant($event)"
+              value="{{selectedVariant?.index}}"
+            >
+              <ion-item
+                lines="none"
+                mode="md"
+                class="no-ripple radio-group-row desc-col"
+                *ngFor="let size of dish?.variants; let i = index;"
+              >
+                <ion-label class="choose-method-name">{{size?.name}}</ion-label>
+                <ion-radio
+                  color="primary"
+                  value="{{size?.index}}"
+                  mode="md"
+                  slot="start"
+                ></ion-radio>
+                <div class="price-col" slot="end">
+                  {{size?.price ? (size?.price /100 | currency:
+                  'EUR':'symbol-narrow':'1.2-2' ) : "0" }}
+                </div>
+              </ion-item>
+
+              <!-- <div
+                class="radio-group-row"
+                *ngFor="let size of dish?.variants; let i = index;"
+              >
+                <div class="desc-col">
+                  <ion-radio
+                    color="primary"
+                    value="{{size?.index}}"
+                    mode="md"
+                  ></ion-radio>
+                  <div class="size-val">{{size?.name}}</div>
+                </div>
+                <div class="price-col">
+                  {{size?.price ? (size?.price /100 | currency:
+                  'EUR':'symbol-narrow':'1.2-2' ) : "0" }}
+                </div>
+              </div> -->
+            </ion-radio-group>
+          </div>
+        </div>
+        <ng-container
+          *ngIf="dish?.hasextras && selectedExtrasOptionsList?.length"
+        >
+          <div
+            class="want-menu-wrapper"
+            *ngFor="let option of selectedExtrasOptionsList"
+            [class.show]="option.showoptions"
+            [ngClass]="option.unfulfilled? 'red-border' : ''"
+          >
+            <div
+              class="choose-extras-top-content"
+              (click)="option.expanded = !option.expanded;"
+            >
+              <div>
+                <div class="text">{{option?.text}}</div>
+
+                <ng-container
+                  *ngIf="option.max_sel == 1 && option.min_sel == 1; else extrasList"
+                >
+                  <div
+                    class="desc"
+                    *ngIf="selectedItems[selectedVariant.rank]['opt'+option.id]?.name; else missingView"
+                  >
+                    {{selectedItems[selectedVariant.rank]['opt'+option.id]?.name}}
+                  </div>
+
+                  <ng-template #missingView>
+                    <div class="desc">
+                      {{'missing-options' | translate}} {{option.min_sel}}
+                    </div>
+                  </ng-template>
+                </ng-container>
+                <ng-template #extrasList>
+                  <div
+                    class="choose-extras-value"
+                    *ngIf="selectedItems[selectedVariant.rank]['opt'+option.id]?.length"
+                  >
+                    <span
+                      *ngFor="let choice of selectedItems[selectedVariant.rank]['opt'+option.id]; let i = index"
+                    >
+                      {{choice?.name}}{{i+1 !=
+                      selectedItems[selectedVariant.rank]['opt'+option.id]?.length
+                      ? ',':''}}
+                    </span>
+                  </div>
+                  <div
+                    class="choose-extras-value"
+                    *ngIf="!selectedItems[selectedVariant.rank]['opt'+option.id]?.length && (option.min_sel>0 && option.max_sel != 1)"
+                  >
+                    <span>
+                      {{'missing-options' | translate}} {{option.min_sel}}
+                    </span>
+                  </div>
+                </ng-template>
+              </div>
+              <ion-icon
+                class="select-extras-arrow"
+                [class.is-collapsed-icon]="option.expanded"
+                name="chevron-down-outline"
+              ></ion-icon>
+            </div>
+            <div
+              class="want-menu-option-list"
+              [class.is-collapsed]="option.expanded"
+              [class.is-not-collapsed]="!option.expanded"
+            >
+              <ng-container
+                *ngIf="option.max_sel == 1 && option.min_sel == 1; else checkBoxList"
+              >
+                <ion-radio-group
+                  value="{{selectedItems[selectedVariant.rank]['opt'+option.id]?.id}}"
+                  (ionChange)="changeChoice($event,option)"
+                >
+                  <ion-item
+                    lines="none"
+                    mode="md"
+                    class="no-ripple radio-group-row desc-col"
+                    *ngFor="let choice of option?.choices"
+                  >
+                    <ion-label class="choose-method-name">
+                      {{choice?.name | translate}}
+                    </ion-label>
+                    <ion-radio
+                      color="primary"
+                      value="{{choice.id}}"
+                      mode="md"
+                      slot="start"
+                    ></ion-radio>
+                    <div class="price-col" *ngIf="choice?.price" slot="end">
+                      {{(choice?.price /100 | currency:
+                      'EUR':'symbol-narrow':'1.2-2' ) }}
+                    </div>
+                  </ion-item>
+
+                  <!-- <div
+                    class="radio-group-row"
+                    *ngFor="let choice of option?.choices"
+                  >
+                    <div class="desc-col">
+                      <ion-radio
+                        color="primary"
+                        value="{{choice.id}}"
+                        mode="md"
+                      ></ion-radio>
+                      <div class="val">{{choice?.name | translate}}</div>
+                    </div>
+                    <div class="price-col" *ngIf="choice?.price">
+                      {{(choice?.price /100 | currency:
+                      'EUR':'symbol-narrow':'1.2-2' ) }}
+                    </div>
+                  </div> -->
+                </ion-radio-group>
+              </ng-container>
+              <ng-template #checkBoxList>
+                <ion-item
+                  lines="none"
+                  mode="md"
+                  class="no-ripple radio-group-row desc-col"
+                  *ngFor="let choice of option?.choices;let i = index;"
+                >
+                  <ion-label class="size-val">{{choice?.name}}</ion-label>
+                  <ion-checkbox
+                    color="primary"
+                    value="{{choice.id}}"
+                    mode="ios"
+                    slot="start"
+                    checked="{{choiceChecked(choice, selectedItems[selectedVariant.rank]['opt'+option.id])}}"
+                    (ionChange)="addRemoveExtras($event,option)"
+                  ></ion-checkbox>
+                  <div class="price-col" slot="end">
+                    {{ (choice?.price / 100 | currency:
+                    'EUR':'symbol':'1.2-2')}}
+                  </div>
+                </ion-item>
+
+                <!-- <div
+                  class="radio-group-row"
+                  *ngFor="let choice of option?.choices;let i = index;"
+                >
+                  <div class="desc-col">
+                    <ion-checkbox
+                      color="primary"
+                      value="{{choice.id}}"
+                      mode="ios"
+                      checked="{{choiceChecked(choice, selectedItems[selectedVariant.rank]['opt'+option.id])}}"
+                      (ionChange)="addRemoveExtras($event,option)"
+                    ></ion-checkbox>
+                    <div class="size-val">{{choice?.name}}</div>
+                  </div>
+                  <div class="price-col">
+                    {{ (choice?.price / 100 | currency: 'EUR':'symbol':'1.2-2' :
+                    'fr')}}
+                  </div>
+                </div> -->
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+        <div class="comment-wrapper">
+          <div class="comment-title-content">
+            <ion-text class="comment-title">
+              {{'comment' | translate}}
+            </ion-text>
+            <div (click)="presentAddCommentsAlert()" class="add-comments-icon">
+              <ion-icon color="primary" name="add-circle"></ion-icon>
+            </div>
+          </div>
+          <div
+            (click)="presentAddCommentsAlert()"
+            class="comment-desc"
+            *ngIf="comments"
+          >
+            {{comments}}
+          </div>
+        </div>
+        <div class="comment-wrapper">
+          <div class="comment-add-box">
+            <ion-text (click)="addRemoveItemCount()">-</ion-text>
+            <ion-text>{{itemCount}}</ion-text>
+            <ion-text (click)="addRemoveItemCount(true)">+</ion-text>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isLoading && !dish?.id">
+      <div class="not-found">
+        <div>
+          <ion-icon class="alert-icon" src="assets/icons/alert-sharp.svg">
+          </ion-icon>
+        </div>
+        <div class="text">{{'item-not-available' | translate}}</div>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="footer-button-wrapper"
+    slot="fixed"
+    *ngIf="!isLoading && dish?.id"
+  >
+    <ion-button
+      size="block"
+      class="theme-button add-to-cart-button"
+      color="theme-green"
+      (click)="saveChanges()"
+    >
+      <ion-badge class="count-badge">{{itemCount}}</ion-badge>
+      {{mode == "ADD" ? ('add-to-cart' | translate) : ('save-changes' |
+      translate)}}
+      <div class="price-desc">
+        {{mainPrice / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+      </div>
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,286 @@
+.title-bar {
+  font-size: 13px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--primary-text);
+  transition: width 0.4s ease-in;
+  &.short {
+    width: 70%;
+  }
+  & .title-text {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--primary-text);
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+  }
+  & .arrow-icon {
+    font-size: 20px;
+    color: var(--primary-text);
+    margin-bottom: 2px;
+  }
+  & .location-icon {
+    font-size: 14px;
+    margin-bottom: 2px;
+    margin-right: 4px;
+    color: var(--primary-text);
+  }
+}
+
+.title-row-wrapper {
+  padding: 0px 15px;
+  &.showicon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+ion-content {
+  --padding-start: 17px;
+  --padding-top: 0px;
+  --padding-end: 17px;
+}
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // margin-right: 28px;
+  flex-direction: row;
+  & .user-greeting-details {
+    & .sub-desc-lines {
+      font-size: var(--font-size-normal-16);
+      font-weight: var(--font-weight-normal-500);
+      color: var(--secondary-text);
+    }
+  }
+}
+
+.cart-icon {
+  & .icon-wrapper {
+    width: 45px;
+    height: 45px;
+    background: var(--brand-background);
+    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    & ion-icon {
+      font-size: 30px;
+      color: var(--ion-color-primary);
+    }
+    & div {
+      position: absolute;
+      height: 12px;
+      width: 12px;
+      border-radius: 100%;
+      font-size: 8px;
+      margin: 0px;
+      top: 10px;
+      right: 6px;
+      font-weight: 900;
+      padding: 0px;
+      background: var(--brand-primary);
+      display: block;
+      & span {
+        font-weight: 900;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+      }
+    }
+  }
+
+  &.show {
+    & .icon-wrapper {
+      box-shadow: none;
+    }
+  }
+}
+
+.card-content {
+  width: 190px;
+  height: 103px;
+  & img {
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 5px !important;
+  }
+  background: var(--ion-color-theme-ligh);
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.menu-wrapper {
+  margin-bottom: 5px;
+}
+.menu-title {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+  line-height: 22px;
+}
+
+.menu-options {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  & .menu-box {
+    width: 66px;
+    height: 66px;
+    background: #ffffff;
+    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-right: 19px;
+    margin-bottom: 12px;
+    & img {
+      border-radius: 5px;
+    }
+    &.category {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    & ion-icon {
+      font-size: 36px;
+    }
+  }
+}
+
+.horizontal-scroll {
+  overflow-y: hidden;
+  overflow-x: scroll;
+  & div.scroll---div {
+    display: inline-flex;
+    margin-top: 12px;
+  }
+  & .card-content {
+    margin-right: 22px;
+    &:last-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+.promo-slide {
+  width: unset !important;
+}
+
+.no-restaurant {
+  padding: 0px 10px;
+  & .logo-img {
+    width: 122px;
+    margin-bottom: 17px;
+  }
+  & .no-result-found {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+  }
+  & ion-icon {
+    width: 75px !important;
+    color: var(--light-text);
+    margin: 0px !important;
+  }
+}
+
+@mixin d-flex($justify-content) {
+  display: flex;
+  align-items: center;
+  justify-content: $justify-content;
+}
+.searchbar-wrapper {
+  @include d-flex(space-between);
+  margin-top: 12px;
+  & .filter-icon-wrapper {
+    @include d-flex(center);
+    width: 40px;
+    height: 40px;
+    background: var(--brand-background);
+    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+    & ion-icon {
+      color: var(--primary-text);
+    }
+  }
+}
+
+.close-map {
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.restaurant-wrapper {
+  border-radius: 8px;
+  height: 167px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0px 4px 9px rgb(0 0 0 / 10%);
+  position: relative;
+
+  & .bg-wrapper {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 65.35%, #000000 100%);
+
+    position: absolute;
+    z-index: 999;
+    height: inherit;
+    width: inherit;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
+    display: flex;
+    align-items: flex-end;
+
+    & .restaurant-name,
+    & .featured-tag {
+      font-weight: var(--font-weight-bold-700);
+      font-size: 18px;
+      line-height: 27px;
+      color: var(--brand-background);
+    }
+    & .restaurant-name {
+      padding: 10px 14px;
+      width: 100%;
+    }
+
+    & .featured-tag {
+      width: 113px;
+      height: 24px;
+      background: var(--brand-primary);
+      border-radius: 0px 0px 8px 8px;
+      position: absolute;
+      top: 0px;
+      text-align: center;
+      right: 15px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      & span {
+        font-size: 12px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+.pizza-like {
+  margin-top: 22px;
+  margin-bottom: 10px;
+}

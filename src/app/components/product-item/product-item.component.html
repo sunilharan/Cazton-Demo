@@ -1,0 +1,36 @@
+<div
+  class="item-card"
+  *ngIf="type == 'pizza'"
+  (click)="itemSelect.emit(item)"
+  [ngClass]="{ showTag: checkExists > 0 }"
+>
+  <div class="count-wrapper" *ngIf="checkExists > 0">{{ checkExists }}</div>
+  <div class="image-wrapper" *ngIf="item.hasimage">
+    <img
+      defaultImage="assets/images/placeholder/logo-placeholder.jpg"
+      [lazyLoad]="item?.image"
+      onerror="this.src=
+      'assets/images/placeholder/logo-placeholder.jpg'"
+    />
+  </div>
+  <div class="content-wrapper">
+    <div class="name-row">
+      <div class="name">
+        {{ fixEncoding(item.name) }}
+      </div>
+      <ng-container *ngIf="item?.tags?.length > 0">
+        <img *ngFor="let tag of item?.tags" [src]="tag?.icon" />
+      </ng-container>
+    </div>
+    <div class="description-wrapper">
+      <p class="description">
+        {{ item.description }}
+      </p>
+      <div class="price-tag">
+        <ion-chip outline="true">
+          {{ item?.pricestring }}
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+</div>

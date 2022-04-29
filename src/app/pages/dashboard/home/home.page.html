@@ -1,0 +1,105 @@
+<ion-header mode="ios" class="custom-header">
+  <ion-toolbar mode="ios">
+    <div class="title-row-wrapper" [class.showicon]="showCartIcon">
+      <div
+        class="title-bar"
+        [class.short]="showCartIcon"
+        [@bounce]="showCartIcon"
+      >
+        <div class="title-text" (click)="presentModal()">
+          {{ currentAddress ? currentAddress : ('select-location' | translate)
+          }}
+        </div>
+        <ion-icon
+          class="arrow-icon"
+          name="chevron-down-outline"
+          (click)="presentModal()"
+        ></ion-icon>
+      </div>
+      <div
+        class="cart-icon"
+        (click)="checkOut()"
+        [class.show]="showCartIcon"
+        *ngIf="showCartIcon"
+        @fadein
+      >
+        <div class="icon-wrapper">
+          <ion-icon src="assets/icons/cart.svg"></ion-icon>
+          <div color="link"><span>{{cartCount}}</span></div>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  #content
+  class="home-screen"
+  [scrollEvents]="true"
+  (ionScroll)="logScrolling($event)"
+>
+  <ng-container *ngIf="!isLoading">
+    <div class="no-restaurant" *ngIf="!isRestaurantExist">
+      <!-- <img class="logo-img" src="assets/icons/logo-icon-new.png" /> -->
+      <div class="common-title-text">{{'commig-soon' | translate}}</div>
+      <div class="desc-text">{{'commig-soon-detail' | translate}}</div>
+      <ion-button
+        size="block"
+        class="theme-button checkout-button"
+        color="theme-green"
+      >
+        {{'bring-pizza-circle'|translate}}
+      </ion-button>
+    </div>
+    <ng-container *ngIf="isRestaurantExist">
+      <div class="header-bar">
+        <div class="user-greeting-details">
+          <div class="user-name">{{'hi-text' | translate}}</div>
+          <div class="sub-desc-lines">
+            {{'what-you-want-to-eat' | translate}}
+          </div>
+        </div>
+        <div class="cart-icon" (click)="checkOut()">
+          <div class="icon-wrapper">
+            <ion-icon src="assets/icons/cart.svg"></ion-icon>
+            <div color="link"><span>{{cartCount}}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="searchbar-wrapper">
+          <ion-searchbar
+            class="custom-search-bar"
+            [placeholder]="'search'|translate"
+            [debounce]="250"
+            mode="md"
+            (ionCancel)="cancelSearch()"
+            (ionClear)="clearSearch()"
+            (ionChange)="search($event)"
+          ></ion-searchbar>
+          <div class="filter-icon-wrapper" (click)="openFilterPage()">
+            <ion-icon src="assets/icons/filter.svg"></ion-icon>
+          </div>
+        </div>
+
+        <ng-container *ngIf="!filterResultFound">
+          <div class="no-restaurant">
+            <ion-icon class="logo-img" name="search-outline"></ion-icon>
+            <div class="desc-text no-result-found">No Result found !!</div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="filteredRestaurants?.length > 0">
+          <div style="padding-top: 15px">
+            <ng-container *ngFor="let restaurant of filteredRestaurants">
+              <app-business-card
+                (cardClicked)="openCategoriesPage(restaurant?.id,restaurant)"
+                [restaurant]="restaurant"
+              ></app-business-card>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</ion-content>

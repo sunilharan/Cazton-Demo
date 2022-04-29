@@ -1,0 +1,102 @@
+<ion-header class="custom-header" mode="ios">
+  <ion-header>
+    <ion-toolbar mode="ios">
+      <ion-buttons slot="start">
+        <ion-button fill="clear" (click)="back()">
+          <ion-icon color="theme-dark" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+</ion-header>
+
+<ion-content>
+  <div class="greeting-line">{{'login-form.signin' | translate}}</div>
+  <div class="header">
+    <div>{{'login-form.do-not-have-account' | translate}}</div>
+    <div
+      (click)="register()"
+      [innerHTML]="'login-form.you-can-register-here' | translate"
+    ></div>
+  </div>
+
+  <div class="form">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-wrapper">
+        <div class="form-item-wrapper">
+          <ion-label position="stacked">
+            {{"form-fields.email.title" | translate}}
+          </ion-label>
+          <ion-item class="form-item" lines="full">
+            <ion-icon
+              slot="start"
+              src="assets/icons/email-outline.svg"
+            ></ion-icon>
+            <ion-input
+              type="email"
+              [placeholder]="'form-fields.email.placeholder' | translate"
+              formControlName="email"
+            >
+            </ion-input>
+          </ion-item>
+          <div
+            class="error"
+            *ngIf="loginForm.get('email').hasError('required') &&
+            (loginForm.get('email').dirty || loginForm.get('email').touched)"
+          >
+            * {{'form-fields.email.errors.required' | translate}}
+          </div>
+          <div
+            class="error"
+            *ngIf="loginForm.get('email').hasError('email') &&
+            (loginForm.get('email').dirty || loginForm.get('email').touched)"
+          >
+            * {{'form-fields.email.errors.invalid' | translate}}
+          </div>
+        </div>
+
+        <div class="form-item-wrapper">
+          <ion-label position="stacked">
+            {{"form-fields.password.title" | translate}}
+          </ion-label>
+          <ion-item class="form-item" lines="full">
+            <ion-icon slot="start" src="assets/icons/lock.svg"></ion-icon>
+            <ion-input
+              type="password"
+              formControlName="password"
+              [placeholder]="'form-fields.password.placeholder' | translate"
+            >
+            </ion-input>
+          </ion-item>
+          <div
+            class="error"
+            *ngIf="loginForm.get('password').hasError('required') &&
+            (loginForm.get('password').dirty || loginForm.get('password').touched)"
+          >
+            * {{'form-fields.password.errors.required' | translate}}
+          </div>
+          <div
+            class="error"
+            *ngIf="loginForm.get('password').hasError('minlength') &&
+            (loginForm.get('password').dirty || loginForm.get('password').touched)"
+          >
+            * {{'form-fields.password.errors.length' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <div class="button-wrapper">
+        <ion-button
+          expand="block"
+          class="theme-button"
+          type="submit"
+          [disabled]="!loginForm.valid"
+        >
+          <ion-text color="white">
+            {{'login-form.signin' | translate}}
+          </ion-text>
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,52 @@
+<ion-header class="custom-header" mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-title mode="ios">{{ 'location' | translate }}</ion-title>
+    <ion-buttons slot="end" (click)="close()">
+      <ion-button fill="clear" class="down-arrow">
+        <ion-icon color="theme-dark" name="chevron-down-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar mode="ios" class="search-toolbar">
+    <ion-searchbar
+      class="location-search-bar"
+      mode="ios"
+      [placeholder]="'location-search-placeholder' | translate"
+      [debounce]="250"
+      [cancelButtonText]="'cancel' | translate"
+      showCancelButton="always"
+      clearIcon="null"
+      (ionChange)="search($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="theme-content">
+  <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  <ion-item lines="none" class="location-item">
+    <ion-avatar slot="start">
+      <ion-icon src="assets/icons/find-location.svg"></ion-icon>
+    </ion-avatar>
+    <ion-label class="find-location-lbl">
+      {{ 'find-my-location' | translate }}
+    </ion-label>
+  </ion-item>
+  <ion-item
+    lines="none"
+    class="location-item"
+    *ngFor="let place of placeList"
+    (click)="onSelect(place)"
+  >
+    <ion-avatar class="location-icon" slot="start">
+      <ion-icon src="assets/icons/location.svg"></ion-icon>
+    </ion-avatar>
+    <ion-label class="location-lbl">
+      <!-- <div class="location-name">
+        {{ location.name }}
+      </div> -->
+      <p class="location-address">
+        {{ place.place_name }}
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-content>

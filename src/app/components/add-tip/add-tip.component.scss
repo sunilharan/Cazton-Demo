@@ -1,0 +1,52 @@
+.content {
+  & .header {
+    text-align: center;
+    & .alert-title {
+      margin-top: 20px;
+      color: var(--ion-text-color, #000);
+      font-size: 17px;
+      font-weight: 600;
+    }
+    & .alert-sub-title {
+      color: var(--ion-color-step-600, #666666);
+      font-size: 14px;
+      margin-top: 5px;
+      font-weight: normal;
+    }
+  }
+  .input-wrapper {
+    margin-top: 25px;
+    & ion-input {
+      max-width: 250px;
+      min-width: 220px;
+      margin: auto;
+      border: 0.55px solid var(--ion-color-step-250, #bfbfbf);
+      font-size: 13px;
+      border-radius: 5px;
+      --padding-start: 10px;
+      font-family: "Poppins";
+    }
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    & .cancle-btn {
+      ion-button {
+        border-right: 1px solid rgba(0, 0, 0, 0.2);
+      }
+    }
+    & .cancle-btn,
+    & .add-btn {
+      width: 50%;
+      ion-button {
+        color: var(--ion-color-primary, #3880ff);
+        font-size: 17px;
+        margin: 0px;
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+ion-header {
+  ion-toolbar {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --background: var(--ion-color-primary);
+    padding-top: 0px !important;
+  }
+}
+ion-content {
+  --padding-start: 20px;
+  --padding-top: 20px;
+  --padding-end: 20px;
+  --padding-bottom: 20px;
+  font-size: var(--font-size-normal);
+  --background: #f9f9f9;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: calc(env(safe-area-inset-top) + 50px);
+  padding-top: env(safe-area-inset-top);
+  & .already-have-ac-text {
+    font-weight: var(--font-weight-normal);
+    color: white;
+  }
+  & .login-text {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & ion-icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.intro-wrapper {
+  text-align: center;
+  height: 375px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // text-align: left;
+  padding-top: 20%;
+  & .logo-title-text {
+    font-size: 14px;
+    font-weight: var(--font-weight-extra-bold);
+    font-style: italic;
+    color: var(--light-text);
+  }
+  & .welcome-text {
+    font-size: 32px;
+    font-weight: var(--font-weight-extra-bold);
+    line-height: 1;
+    color: var(--ion-color-primary);
+    margin: 20px;
+  }
+  & .greeting-text {
+    color: var(--light-text);
+    width: 95%;
+    font-weight: normal;
+    font-size: 11px;
+  }
+}
+.divider {
+  width: 85%;
+  border-top: 1px solid var(--ion-color-white-shade);
+  margin: auto;
+  margin-bottom: 14px;
+}
+.theme-button {
+  margin-bottom: 14px;
+  & ion-icon {
+    position: absolute;
+    left: 5px;
+    font-size: 16px;
+    &.google-icon {
+      font-size: 12px;
+    }
+    &.apple-icon {
+      font-size: 18px;
+      color: var(--brand-background);
+    }
+    &.email {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,129 @@
+ion-toolbar {
+  padding-top: 10px !important;
+}
+ion-content {
+  --padding-start: 27px;
+  --padding-end: 27px;
+  --padding-bottom: 100px;
+}
+
+.close-icon {
+  font-size: 24px;
+}
+@mixin custom-chip {
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: 36px;
+  padding: 0px;
+  span {
+    font-weight: var(--font-weight-normal-500);
+    font-size: var(--font-size-normal-16);
+    line-height: 24px;
+    text-align: center;
+    width: 100%;
+  }
+  &.light {
+    --background: var(--brand-background);
+    --color: var(--ion-color-primary);
+  }
+  &.dark {
+    --background: var(--ion-color-primary);
+    --color: var(--brand-background);
+  }
+}
+.delivery-option-wrapper {
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  ion-chip.delivery-option {
+    width: 88px;
+    &.open-now {
+      width: 120px;
+    }
+    @include custom-chip();
+  }
+}
+ion-chip.reset-filter {
+  font-weight: 500;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 5px;
+  text-align: right;
+  padding-right: 0px;
+  margin-right: 0px;
+  height: 36px;
+}
+.option-title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+  line-height: 30px;
+  color: var(--primary-text);
+}
+.slider-cmp {
+  & ion-range {
+    --bar-height: 5px;
+    border-radius: 5px;
+    --bar-border-radius: 5px;
+    // --bar-background-active: #bfbfbf;
+    // --knob-background: #1264df;
+    --padding-start: 0px;
+    padding-left: 7px;
+    padding-top: 0px;
+    height: 35px;
+    padding-right: 0px;
+  }
+  & .step-indicators {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    * {
+      font-weight: 600;
+      line-height: 24px;
+      font-size: var(--font-size-normal-16);
+      color: var(--primary-text);
+    }
+  }
+}
+
+.price-level-wrapper {
+  & .price-tags {
+    padding-top: 7px;
+    ion-chip {
+      @include custom-chip();
+      &:first-child {
+        margin-left: 0px;
+      }
+      span {
+        padding: 0px 12px;
+      }
+    }
+  }
+}
+
+.cuisins-wrapper {
+  margin-top: 15px;
+  .cuisins-list {
+    & ion-item {
+      height: 26px;
+      display: flex;
+      align-items: center;
+      --padding-start: 0px;
+      --background: transparent;
+      & ion-label {
+        margin: 0px;
+        font-size: 16px;
+        line-height: 24px;
+        --color: var(--primary-text);
+        font-weight: 500;
+      }
+      & ion-checkbox {
+        margin: 0px;
+        margin-right: 8px;
+        width: 16px;
+        height: 16px;
+        --border-color: var(--ion-color-primary);
+        --background: var(--brand-background);
+      }
+    }
+  }
+}

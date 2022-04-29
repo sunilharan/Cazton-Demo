@@ -1,0 +1,31 @@
+<div class="card category-card" [id]="'id' + category.id">
+  <div (click)="categorySelect.emit(category)">
+    <swiper [config]="slideOptions" class="swiper-slide" #swiper>
+      <ng-template swiperSlide *ngFor="let img of category.images">
+        <img
+          defaultImage="assets/images/placeholder/banner-placeholder.jpg"
+          [lazyLoad]="img"
+          onerror="this.src=
+          'assets/images/placeholder/banner-placeholder.jpg'"
+        />
+        <ion-badge slot="fixed" class="count-badge">
+          {{ category?.dishes?.length }}
+        </ion-badge>
+      </ng-template>
+    </swiper>
+    <div class="title">
+      {{ category.name }}
+    </div>
+    <div class="desc">
+      {{ category.description }}
+    </div>
+  </div>
+  <div *ngIf="category?.dishes && category?.dishes.length > 0">
+    <app-product-item
+      [type]="'pizza'"
+      *ngFor="let item of category?.dishes"
+      [item]="item"
+      (itemSelect)="onItemSelect.emit(item)"
+    ></app-product-item>
+  </div>
+</div>

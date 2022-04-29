@@ -1,0 +1,33 @@
+<app-header title="order-history"></app-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="!loading">
+    <div
+      class="no-order"
+      *ngIf="!orderList || (orderList && orderList.length === 0)"
+    >
+      <ion-icon src="assets/icons/cart.svg"></ion-icon>
+      <div class="common-title-text">{{'no-orders' | translate}}</div>
+      <div class="desc-text">{{'no-placed-order-yet' | translate}}</div>
+    </div>
+
+    <div class="item-wrapper" *ngIf="orderList && orderList.length>0">
+      <ion-item
+        class="order-item"
+        lines="none"
+        *ngFor="let item of orderList"
+        (click)="showOrderDetail(item)"
+      >
+        <ion-thumbnail>
+          <img class="orderimg" src="{{item?.business?.logo}}" />
+        </ion-thumbnail>
+        <ion-label>
+          <h3 class="item-title">{{item?.business?.name}}</h3>
+          <p class="item-desc">{{item?.business?.address}}</p>
+          <p class="item-desc">{{item?.ordertime}}</p>
+        </ion-label>
+        <div class="bottom-line"></div>
+      </ion-item>
+    </div>
+  </ng-container>
+</ion-content>

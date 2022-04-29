@@ -1,0 +1,23 @@
+$tabsHeight: 70px;
+ion-tabs {
+  & ion-tab-bar {
+    --border: 0.5px solid var(--ion-color-white-shade);
+    box-shadow: none;
+    max-height: $tabsHeight;
+    --color: var(--tab-bar-profile-icon-color);
+    --background: var(--brand-light-background);
+    & ion-tab-button {
+      --color-selected: var(--primary-text) !important;
+      --color: var(--tab-bar-profile-icon-color) !important;
+      & ion-icon {
+        font-size: var(--font-size-large-26);
+        &.list {
+          font-size: var(--font-size-medium-22);
+        }
+        &.user {
+          font-size: var(--font-size-large);
+        }
+      }
+    }
+  }
+}

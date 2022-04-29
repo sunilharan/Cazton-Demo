@@ -1,0 +1,119 @@
+<ion-content class="theme-content">
+  <div class="restaurant-info-detail-wrapper">
+    <div class="close-btn-wrapper">
+      <ion-icon
+        (click)="back()"
+        color="theme-dark"
+        class="down-arrow"
+        name="close-outline"
+      ></ion-icon>
+    </div>
+    <div class="content-wrapper">
+      <ng-container *ngIf="!loading">
+        <h3 class="title-text">{{ "information" | translate }}</h3>
+        <div class="ttl">
+          {{ restaurant?.name }}
+        </div>
+        <div class="desc" *ngIf="restaurant?.street">
+          {{ restaurant?.street }}
+        </div>
+        <ng-container *ngIf="restaurant?.paymethods">
+          <div class="ttl">
+            {{ "means-of-payment" | translate }}
+          </div>
+          <div class="desc payment-row">
+            <img
+              src="assets/images/checkout/payment/c_paypal.svg"
+              alt=""
+              *ngIf="restaurant?.paymethods?.paypal"
+            />
+            <img
+              src="assets/images/checkout/payment/c_credit.svg"
+              alt=""
+              *ngIf="restaurant?.paymethods?.stripecc"
+            />
+            <img
+              src="assets/images/checkout/payment/c_cash.svg"
+              alt=""
+              *ngIf="restaurant?.paymethods?.cash"
+            />
+            <img
+              src="assets/images/checkout/payment/c_klarna.svg"
+              alt=""
+              *ngIf="restaurant?.paymethods?.stripesofort"
+            />
+            <img
+              src="assets/images/checkout/payment/c_giro.svg"
+              alt=""
+              *ngIf="restaurant?.paymethods?.ec"
+            />
+          </div>
+        </ng-container>
+        <ng-container *ngIf="restaurant?.openTimes">
+          <div class="ttl">
+            {{ "opening-times" | translate }}
+          </div>
+          <div class="desc" [innerHTML]="restaurant?.openTimes"></div>
+        </ng-container>
+        <ng-container *ngIf="restaurant?.deliverTimes">
+          <div class="ttl">
+            {{ "delivery-times" | translate }}
+          </div>
+          <div class="desc" [innerHTML]="restaurant?.deliverTimes"></div>
+        </ng-container>
+        <ng-container *ngIf="imprintString">
+          <div class="ttl">
+            {{ "imprint" | translate }}
+          </div>
+          <div class="desc" [innerHTML]="imprintString"></div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <div class="loading-placeholder">
+          <div style="height: 46px"></div>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+
+          <ion-skeleton-text
+            animated
+            style="width: 70%; margin-top: 17px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+
+          <ion-skeleton-text
+            animated
+            style="width: 70%; margin-top: 17px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+
+          <ion-skeleton-text
+            animated
+            style="width: 70%; margin-top: 17px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+
+          <ion-skeleton-text
+            animated
+            style="width: 75%; margin-top: 17px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+
+          <ion-skeleton-text
+            animated
+            style="width: 60%; margin-top: 17px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text
+            animated
+            style="width: 70%; margin-top: 10px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 65%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 75%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 85%"></ion-skeleton-text>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ion-content>

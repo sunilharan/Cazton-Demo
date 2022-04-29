@@ -1,0 +1,492 @@
+<ion-header class="custom-header" mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon color="theme-dark" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="ios">{{ 'checkout' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="theme-content">
+  <div class="title-text">{{'how-would-you-like-to-order' | translate}}</div>
+  <ion-radio-group
+    [(ngModel)]="deliveryOption"
+    (ionChange)="changeDeliveryOption()"
+  >
+    <div class="delivery-options">
+      <div
+        class="delivery-col"
+        [class.active]="deliveryOption === 'delivery'"
+        *ngIf="restaurant?.deliveryAllowed"
+      >
+        <ion-radio
+          color="primary"
+          class="option-radio-button"
+          value="delivery"
+          mode="ios"
+        >
+        </ion-radio>
+        <ion-icon
+          class="hidden-icon"
+          [ngClass]="{show:deliveryOption === 'delivery'}"
+          name="checkmark-circle"
+        ></ion-icon>
+        <ion-icon class="option-icon" src="assets/icons/vehicle.svg"></ion-icon>
+        <div class="option-text">{{'deliver' | translate}}</div>
+      </div>
+      <div
+        class="delivery-col"
+        [class.active]="deliveryOption === 'pickup'"
+        *ngIf="restaurant?.pickupAllowed"
+      >
+        <ion-radio
+          color="primary"
+          class="option-radio-button"
+          value="pickup"
+          mode="ios"
+        >
+        </ion-radio>
+        <ion-icon
+          class="hidden-icon"
+          [ngClass]="{show:deliveryOption === 'pickup'}"
+          name="checkmark-circle"
+        ></ion-icon>
+        <ion-icon class="option-icon" src="assets/icons/bag.svg"></ion-icon>
+        <div class="option-text">{{'pickup' | translate}}</div>
+      </div>
+    </div>
+  </ion-radio-group>
+  <div class="title-text mt-18">
+    <ng-container *ngIf="deliveryOption === 'delivery'">
+      {{'delivery-time' | translate}}
+    </ng-container>
+    <ng-container *ngIf="deliveryOption === 'pickup'">
+      {{'pickup-time' | translate}}
+    </ng-container>
+  </div>
+  <div class="delivery-time-sel-container">
+    <ion-radio-group [(ngModel)]="deliveryTime">
+      <div class="delivery-time-row" *ngIf="restaurant?.openNow">
+        <ion-radio
+          color="theme-dark"
+          mode="md"
+          value="as-soon-as-possible"
+        ></ion-radio>
+        <div class="">{{'as-soon-as-possible' | translate}}</div>
+      </div>
+      <div class="delivery-time-row" *ngIf="restaurant?.preorderdates?.length">
+        <ion-radio
+          color="theme-dark"
+          mode="md"
+          value="select-desire-time"
+        ></ion-radio>
+        <div class="">{{'select-desire-time' | translate}}</div>
+      </div>
+    </ion-radio-group>
+  </div>
+  <div class="form-row">
+    <ion-item
+      class="form-item multi-input"
+      *ngIf="deliveryTime === 'select-desire-time'"
+      (click)="selectPreOrderDate()"
+    >
+      <ion-label class="form-label" position="stacked">
+        {{"desire-time" | translate}}
+      </ion-label>
+      <!--  <ion-datetime
+        placeholder="DD-MM-YYYY HH:mm"
+        displayFormat="DD-MM-YYYY HH:mm"
+        pickerFormat="DD-MM-YYYY HH:mm"
+      ></ion-datetime> -->
+      <ion-input
+        style="pointer-events: none"
+        [(ngModel)]="this.displaySelectedPreorderDate"
+        [placeholder]="'select-desize-time-placeholder' | translate"
+        class="form-input border"
+        type="text"
+      ></ion-input>
+    </ion-item>
+  </div>
+  <div class="title-text mt-18">
+    <ng-container *ngIf="deliveryOption === 'delivery'">
+      {{'delivery-address' | translate}}
+    </ng-container>
+    <ng-container *ngIf="deliveryOption === 'pickup'">
+      {{'contact-information' | translate}}
+    </ng-container>
+  </div>
+  <form class="form" [formGroup]="validations">
+    <div class="form-row">
+      <ion-item mode="ios" class="form-item multi-input">
+        <ion-label class="form-label" position="floating">
+          {{"first_name" | translate}}
+        </ion-label>
+        <ion-input
+          formControlName="firstname"
+          class="form-input border"
+          type="text"
+        ></ion-input>
+      </ion-item>
+      <ion-item mode="ios" class="form-item">
+        <ion-label class="form-label" position="floating">
+          {{"last_name" | translate}}
+        </ion-label>
+        <ion-input
+          formControlName="lastname"
+          class="form-input border"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-row">
+      <div
+        class="error"
+        *ngIf="validations.get('firstname').hasError('required') &&
+        (validations.get('firstname').dirty || validations.get('firstname').touched)"
+      >
+        * {{'validations-error.first_name' | translate}}
+      </div>
+      <div
+        class="error"
+        *ngIf="validations.get('lastname').hasError('required') &&
+        (validations.get('lastname').dirty || validations.get('lastname').touched)"
+      >
+        * {{'validations-error.last_name' | translate}}
+      </div>
+    </div>
+    <div class="form-row" *ngIf="deliveryOption === 'delivery'">
+      <ion-item
+        mode="ios"
+        class="form-item"
+        lines="none"
+        (click)="openLocationSelectBox()"
+        style="max-height: unset !important"
+      >
+        <ion-label class="form-label" position="floating">
+          {{"address" | translate}}
+        </ion-label>
+        <ion-textarea
+          formControlName="address"
+          class="form-input border"
+          type="text"
+          style="
+            pointer-events: none;
+            min-height: unset;
+            height: unset;
+            max-height: unset;
+          "
+          rows="2"
+        ></ion-textarea>
+      </ion-item>
+    </div>
+    <div class="form-row" *ngIf="deliveryOption === 'delivery'">
+      <div
+        class="error"
+        *ngIf="validations.get('address').hasError('required') &&
+        (validations.get('address').dirty || validations.get('address').touched)"
+      >
+        * {{'validations-error.address' | translate}}
+      </div>
+    </div>
+    <div class="form-row">
+      <ion-item mode="ios" class="form-item" lines="none">
+        <ion-label class="form-label" position="floating">
+          {{"note" | translate}}
+        </ion-label>
+        <ion-input
+          formControlName="notes"
+          class="form-input border"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="title-text mt-18">{{'confirmation' | translate}}</div>
+    <div class="form-row">
+      <ion-item mode="ios" class="form-item" lines="none">
+        <ion-label class="form-label" position="floating">
+          {{"email" | translate}}
+        </ion-label>
+        <ion-input
+          formControlName="email"
+          class="form-input border"
+          type="email"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-row">
+      <div
+        class="error"
+        *ngIf="validations.get('email').hasError('required') &&
+        (validations.get('email').dirty || validations.get('email').touched)"
+      >
+        * {{'form-fields.email.errors.required' | translate}}
+      </div>
+      <div
+        class="error"
+        *ngIf="validations.get('email').hasError('email') &&
+        (validations.get('email').dirty || validations.get('email').touched)"
+      >
+        * {{'form-fields.email.errors.invalid' | translate}}
+      </div>
+    </div>
+    <div class="form-row">
+      <ion-item mode="ios" class="form-item" lines="none">
+        <ion-label class="form-label" position="floating">
+          {{"phone_no" | translate}}
+        </ion-label>
+        <ion-input
+          class="form-input border"
+          type="tel"
+          minlength="4"
+          formControlName="phoneno"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-row">
+      <div
+        class="error"
+        *ngIf="validations.get('phoneno').hasError('required') &&
+        (validations.get('phoneno').dirty || validations.get('phoneno').touched)"
+      >
+        * {{'validations-error.phone_no.required' | translate}}
+      </div>
+      <div
+        class="error"
+        *ngIf="validations.get('phoneno').hasError('pattern') &&
+      (validations.get('phoneno').dirty || validations.get('phoneno').touched)"
+      >
+        * {{'validations-error.phone_no.min-length__max-length' | translate}}
+      </div>
+    </div>
+  </form>
+
+  <div class="title-text mt-18">{{'order-overview' | translate}}</div>
+  <div class="business-name">{{restaurant?.name}}</div>
+  <div class="item-wrapper">
+    <ion-item-sliding *ngFor="let item of cartItems">
+      <ion-item class="order-item">
+        <ion-text *ngIf="item.quantity" class="qty-text"
+          >{{ item.quantity }}x</ion-text
+        >
+        <ion-label>
+          <h3 class="item-text">{{ item?.dish?.name }}</h3>
+          <p class="item-detail" *ngIf="item?.variant?.name">
+            {{item?.variant?.name }}
+          </p>
+          <ion-text *ngIf="item.toppings && item.toppings.length>0">
+            <p class="item-detail" *ngFor="let data of item.toppings">
+              + {{ data }}
+            </p>
+          </ion-text>
+          <p class="item-detail" *ngIf="item.comment">{{ item.comment }}</p>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text class="price-text">
+            {{ item.price / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+          </ion-text>
+          <div class="edit-item-btn" (click)="editOrderItem(item)">
+            {{'edit' | translate}}
+          </div>
+        </ion-note>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="white" (click)="removeItemFromCart(item)">
+          <ion-icon
+            slot="icon-only"
+            size="small"
+            name="trash-outline"
+          ></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item class="order-item">
+      <ion-label>
+        <p class="item-title">{{'order-overview-page.subtotal' | translate}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="total-price-text">
+          {{subTotal / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+    <ion-item class="order-item">
+      <ion-label>
+        <p class="item-title">
+          {{'order-overview-page.delivery-charge' | translate}}
+        </p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="total-price-text">
+          {{deliveryCharges() / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+    <ion-item
+      class="order-item"
+      *ngIf="!validateMinimumValue(restaurant?.discount) && discountAmount(restaurant?.discount) > 0"
+    >
+      <ion-label>
+        <p class="item-title">{{'discount' | translate}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="total-price-text">
+          {{discountAmount(restaurant?.discount) / 100 | currency:
+          'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+    <ion-item
+      class="order-item"
+      *ngIf="validatedCouponDetail && !validateMinimumValue(validatedCouponDetail)&& discountAmount(validatedCouponDetail) > 0"
+    >
+      <ion-label>
+        <p class="item-title">
+          {{'discount' | translate}} ({{validatedCouponDetail.coupon}})
+        </p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="total-price-text">
+          {{discountAmount(validatedCouponDetail) / 100 | currency:
+          'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+    <ion-item class="order-item">
+      <ion-label>
+        <p class="item-title">{{'tip' | translate}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="total-price-text">
+          {{tipAmount/ 100 | currency:'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+    <ion-item class="order-item">
+      <ion-label>
+        <p class="item-title">{{'order-overview-page.total' | translate}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-text class="final-price-text">
+          {{finalTotal / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-text>
+      </ion-note>
+    </ion-item>
+  </div>
+  <div
+    class="error"
+    *ngIf="validatedCouponDetail && validateMinimumValue(validatedCouponDetail)"
+  >
+    * {{'coupon-errors.minimum-applicable-amount-error' | translate}}
+    {{validatedCouponDetail?.minimum / 100 | currency:
+    'EUR':'symbol-narrow':'1.2-2' }}
+  </div>
+  <div
+    class="error"
+    *ngIf="(validatedCouponDetail || restaurant?.discount) && couponDeliveryOptionApplyError"
+  >
+    * {{'coupon-errors.apply-on-delivery-option-only' | translate}}
+  </div>
+  <div
+    class="error"
+    *ngIf="(validatedCouponDetail || restaurant?.discount) && couponPickupOptionApplyError"
+  >
+    * {{'coupon-errors.apply-on-pickup-option-only' | translate}}
+  </div>
+  <ng-container>
+    <div class="title-text mt-18">{{'tip' | translate}}</div>
+    <div class="item-detail tip-text">{{'tip-description'|translate}}</div>
+
+    <div class="tip-option-wrapper">
+      <ion-chip
+        class="options"
+        *ngFor="let item of tipsList"
+        [ngClass]="{selected:item.selected}"
+        (click)="selectTipValue(item)"
+      >
+        <ion-label>
+          {{item?.amount / 100| currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </ion-label>
+      </ion-chip>
+      <ion-chip
+        class="custom-option"
+        outline="true"
+        (click)="customAddTipAlert()"
+      >
+        <ion-label>{{'custom' | translate}}</ion-label>
+      </ion-chip>
+    </div>
+  </ng-container>
+
+  <div class="terms-div">
+    <div class="detail-row">
+      <div class="radio-col">
+        <ion-checkbox
+          value="offer-promotions"
+          mode="md"
+          color="primary"
+          [(ngModel)]="promotions"
+        ></ion-checkbox>
+      </div>
+      <div class="desc-col" (click)="promotions=!promotions">
+        {{'interested-in-offer-and-promotions' | translate}}
+      </div>
+    </div>
+    <div class="detail-row terms-diff">
+      <div class="radio-col">
+        <ion-checkbox
+          mode="md"
+          value="terms-privacy"
+          color="primary"
+          [(ngModel)]="termsCondition"
+        ></ion-checkbox>
+      </div>
+      <div class="desc-col">
+        <span (click)="termsCondition=!termsCondition">
+          {{'agree.i-agree' | translate}}
+        </span>
+        <span
+          style="font-weight: 600"
+          (click)="terms_condition_privacy_policy('terms-conditions')"
+        >
+          {{'agree.terms-condition' | translate}}
+        </span>
+        <span (click)="termsCondition=!termsCondition">
+          {{'agree.and-the' | translate}}
+        </span>
+        <span
+          style="font-weight: 600"
+          (click)="terms_condition_privacy_policy('privacy-policy')"
+        >
+          {{'agree.privacy-policy' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="buy-now">
+    <ion-button
+      size="block"
+      class="theme-button buy-now-btn"
+      color="primary"
+      [color]="validateCartMinimum ? 'theme-gray' : 'primary'"
+      (click)="place_order()"
+    >
+      <ng-container *ngIf="validateCartMinimum; else totalPriceTemplate">
+        {{'minimum' | translate}}
+        <div class="price-desc">
+          {{ cartMinimum / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </div>
+      </ng-container>
+
+      <ng-template #totalPriceTemplate>
+        {{'buy-now' | translate}}
+        <div class="price-desc">
+          {{finalTotal / 100 | currency: 'EUR':'symbol-narrow':'1.2-2' }}
+        </div>
+      </ng-template>
+    </ion-button>
+  </div>
+</ion-content>

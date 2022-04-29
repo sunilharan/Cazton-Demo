@@ -1,0 +1,130 @@
+.item-card {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  margin-bottom: 9px;
+  padding-top: 8px;
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 85%;
+    border-top: 0.4px solid #ececec;
+    position: absolute;
+    bottom: -10px;
+    margin: auto;
+    margin-bottom: 9px;
+    left: 0px;
+    right: 0px;
+  }
+
+  & .image-wrapper {
+    margin-right: 8px;
+    position: relative;
+    & img {
+      min-height: 68px;
+      min-width: 68px;
+      max-width: 70px;
+      max-height: 70px;
+      border-radius: 5px;
+    }
+  }
+
+  & .content-wrapper {
+    width: 100%;
+    & .name-row {
+      display: flex;
+      align-items: center;
+      & img {
+        height: 15px;
+        width: 15px !important;
+        min-width: 15px !important;
+      }
+    }
+    & .name {
+      font-weight: var(--font-weight-bold);
+      font-size: 18px;
+      line-height: 18px;
+      padding-bottom: 5px;
+      margin-right: 5px;
+    }
+    & .description {
+      flex-grow: 1;
+      margin: 0px;
+      font-weight: var(--font-weight-normal);
+      font-size: var(--font-size-normal);
+      line-height: 108%;
+      color: var(--tertiary-text);
+      margin-bottom: 5px;
+      &.sub {
+        font-size: 10px;
+        font-style: italic;
+      }
+    }
+    & .price-tag {
+      align-self: flex-end;
+      & ion-chip {
+        width: max-content;
+        border-radius: 4px;
+        font-size: var(--font-size-normal);
+        font-weight: var(--font-weight-normal-500);
+        line-height: 108%;
+        padding: 0px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        border: none;
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
+.description-wrapper {
+  display: flex;
+}
+.divider {
+  width: 85%;
+  border-top: 0.4px solid #ececec;
+  margin-bottom: 14px;
+}
+
+.inventry-text {
+  background: linear-gradient(135deg, #ca1717 16px, transparent 16px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  font-size: 10px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 4px;
+  color: #ffffff;
+  line-height: 15px;
+  border-radius: 5px;
+}
+
+.showTag {
+  position: relative;
+  background: linear-gradient(
+        to top right,
+        transparent 50%,
+        var(--ion-color-theme-red) 0
+      )
+      top right/26px 26px no-repeat,
+    var(--brand-background);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.count-wrapper {
+  position: absolute;
+  right: 3px;
+  top: -1px;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 15px;
+  color: #ffffff;
+  padding: 2px;
+}

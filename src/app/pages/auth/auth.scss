@@ -1,0 +1,97 @@
+@mixin flex($content) {
+  display: flex;
+  justify-content: $content;
+  align-items: center;
+}
+
+ion-toolbar {
+  --border-width: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --background: var(--brand-background);
+}
+
+ion-content {
+  --background: var(--brand-background);
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
+
+.logo-wrapper {
+  @include flex(flex-start);
+  margin-top: 20px;
+}
+
+.greeting-line {
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 45px;
+  color: var(--primary-text);
+  // margin-top: 50px;
+}
+
+.header {
+  margin-top: 20px;
+
+  div {
+    font-weight: 400;
+    font-size: 16px;
+    margin-top: 4px;
+
+    span {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.form {
+  margin-top: 52px;
+}
+
+.form-item-wrapper {
+  margin-top: 40px;
+
+  ion-label {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--secondary-text);
+  }
+
+  .form-item {
+    --padding-start: 0px;
+    --padding-end: 0px;
+
+    ion-icon {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    ion-input {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      --color: var(--theme-black);
+      --placeholder-color: var(--theme-black);
+      --placeholder-opacity: 0.7;
+    }
+  }
+}
+
+.button-wrapper {
+  margin: 60px 0px;
+
+  ion-button {
+    ion-text {
+      font-size: var(--font-size-normal-16);
+      line-height: 26px;
+      font-weight: var(--font-weight-bold) !important;
+    }
+  }
+}

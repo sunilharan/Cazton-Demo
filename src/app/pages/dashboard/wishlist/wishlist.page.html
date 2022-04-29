@@ -1,0 +1,19 @@
+<app-header title="wishlist"></app-header>
+<ion-content class="theme-content">
+  <ng-container *ngIf="wishlistItems?.length > 0; else noFavorites">
+    <div *ngFor="let restaurant of wishlistItems">
+      <app-business-card
+        [restaurant]="restaurant"
+        (cardClicked)="openCategoriesPage(restaurant?.id)"
+      >
+      </app-business-card>
+    </div>
+  </ng-container>
+  <ng-template #noFavorites>
+    <div class="no-favorites-wrapper">
+      <ion-icon src="assets/icons/heart.svg"></ion-icon>
+      <div class="txt">{{'no-fav' | translate}}</div>
+      <div class="sm-text">{{'no-fav-message' | translate}}</div>
+    </div>
+  </ng-template>
+</ion-content>

@@ -1,0 +1,118 @@
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-Light.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-Medium.ttf);
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-SemiBold.ttf);
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-Bold.ttf);
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-ExtraBold.ttf);
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url(../assets/fonts/Poppins-Black.ttf);
+  font-weight: 900;
+  font-style: normal;
+}
+* {
+  font-family: "Poppins";
+  font-weight: 400;
+  // color: var(--ion-color-theme-dark);
+}
+:root {
+  --font-size-small: 12px;
+  --font-size-normal: 14px;
+  --font-size-normal-16: 16px;
+  --font-size-medium: 20px;
+  --font-size-medium-22: 22px;
+  --font-size-large: 24px;
+  --font-size-large-26: 26px;
+  --font-size-extra-large: 36px;
+
+  --font-weight-normal: 400;
+  --font-weight-normal-500: 500;
+  --font-weight-bold: 600;
+  --font-weight-bold-700: 700;
+  --font-weight-semibold: 800;
+  --font-weight-extra-bold: 900;
+}
+// @media (prefers-color-scheme: light) {
+:root {
+  --light-text: #757575;
+  --theme-black: #212121;
+
+  --primary-text: #202020;
+  --secondary-text: #666666;
+  --tertiary-text: #757575;
+  --brand-lighter: #bfbfbf;
+  --brand-background: #ffffff;
+  --brand-light-background: #efefef;
+
+  --light-text-001: #6b6b6b;
+  --alert-icon-color: #3e3a3a;
+  --item-border-color: #e1e1e1;
+
+  --login-page-title-color: #bababa;
+  --product-detail-extras-arrow: #dcdcdc;
+  --tab-bar-profile-icon-color: #bdbdbd;
+  --tab-bar-bg: #fcfcfc;
+  --user-profile-background: #ef9a9a;
+  --user-profile-name-color: #754242;
+  --progress-bar-buffer-bg: #d6d6d6;
+  --category-product-header-content-bg: #ffffff;
+  --brand-primary: #e8413a;
+}
+// }
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --light-text: #e9e9e9;
+    --theme-black: #212121;
+
+    --primary-text: #ffffff;
+    --secondary-text: #fbfbfb;
+    --tertiary-text: #f1f1f1;
+    --brand-lighter: #e9e9e9;
+    --brand-background: #464646;
+    --brand-light-background: #323232;
+
+    --light-text-001: #6b6b6b;
+    --alert-icon-color: #3e3a3a;
+    --item-border-color: #e1e1e1;
+
+    --login-page-title-color: #bababa;
+    --product-detail-extras-arrow: #dcdcdc;
+    --tab-bar-profile-icon-color: #bdbdbd;
+    --tab-bar-bg: #fcfcfc;
+    --user-profile-background: #ef9a9a;
+    --user-profile-name-color: #754242;
+    --progress-bar-buffer-bg: #d6d6d6;
+    --category-product-header-content-bg: #000000;
+    --brand-primary: #e8413a;
+  }
+} */

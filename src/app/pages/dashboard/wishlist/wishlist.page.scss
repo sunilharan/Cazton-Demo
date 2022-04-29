@@ -1,0 +1,27 @@
+.no-favorites-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & ion-icon {
+    color: var(--brand-lighter);
+    font-size: 48px;
+  }
+  & .txt {
+    font-style: normal;
+    font-weight: var(--font-weight-bold-700);
+    font-size: var(--font-size-medium);
+    line-height: 30px;
+    color: var(--primary-text);
+  }
+
+  & .sm-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 10px;
+    color: var(--tertiary-text);
+  }
+}

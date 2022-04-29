@@ -1,0 +1,196 @@
+<ion-header class="custom-header" mode="ios">
+  <ion-header>
+    <ion-toolbar mode="ios" class="header-toolbar">
+      <ion-buttons slot="start">
+        <ion-button fill="clear" class="back" (click)="back()">
+          <ion-icon class="back-icon" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title mode="ios" *ngIf="!isLoading">
+        <div class="title">{{ restuarant?.name }}</div>
+      </ion-title>
+      <ion-buttons
+        slot="end"
+        *ngIf="!isLoading && categories?.length > 0"
+        [class.hide_buttons]="showChipToolbar"
+      >
+        <ion-button
+          (click)="isItemWishListed ? removeFromWishlist(): addToWishlist()"
+          shape="round"
+          fill="solid"
+          color="white"
+          class="wishlist"
+        >
+          <ion-icon
+            [name]="isItemWishListed ?'heart' : 'heart-outline' "
+          ></ion-icon>
+        </ion-button>
+        <ion-button shape="round" fill="solid" color="white" class="share">
+          <ion-icon src="assets/icons/share.svg"></ion-icon>
+        </ion-button>
+        <ion-button
+          class="info-icon"
+          fill="clear"
+          (click)="openRestaurantInformation(restuarant)"
+          shape="round"
+        >
+          <ion-icon src="assets/icons/alert-sharp.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <div
+      class="option-chip-toolbar category-chip"
+      *ngIf="!isLoading && categories?.length > 0"
+    >
+      <ion-buttons slot="start">
+        <ion-button
+          class="search-icon-button ml"
+          [ngClass]="{hide : showSearchBar}"
+          (click)="showSearchBar = true"
+        >
+          <ion-icon slot="icon-only" src="assets/icons/search.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-searchbar
+        *ngIf="showSearchBar"
+        class="location-search-bar no-padding"
+        [placeholder]="'filter-categories' | translate"
+        inputmode="text"
+        type="text"
+        [debounce]="250"
+        [ngClass]="{hide: !showSearchBar}"
+        showCancelButton="always"
+        (ionCancel)="cancelSearch()"
+        (ionClear)="clearSearch()"
+        (ionChange)="search($event)"
+        mode="ios"
+      ></ion-searchbar>
+      <div
+        class="horizontal-scroll"
+        [ngClass]="{hide : showSearchBar}"
+        *ngIf="categories?.length > 0"
+        id="chip-scroll"
+      >
+        <div class="scroll---div">
+          <ion-chip
+            (click)="scrollToElement(category.id)"
+            *ngFor="let category of categories"
+            class="item-chip"
+            [id]="'item-chip' + category.id"
+          >
+            {{uiService.fixEncoding(category.name)}}
+          </ion-chip>
+        </div>
+      </div>
+    </div>
+  </ion-header>
+</ion-header>
+<ion-progress-bar
+  *ngIf="isLoading"
+  class="custom-progress-bar"
+  color="theme-red"
+  type="indeterminate"
+></ion-progress-bar>
+<ion-content
+  #content
+  [scrollEvents]="true"
+  [fullscreen]="true"
+  (ionScroll)="logScrolling($event)"
+  [forceOverscroll]="true"
+>
+  <ng-container *ngIf="!isLoading && categories?.length > 0">
+    <div class="image-handle" #headerImg>
+      <img [src]="restuarant?.webbanner" />
+    </div>
+    <div class="v-padding content-wrap">
+      <app-business-card
+        page="category"
+        [restaurant]="restuarant"
+      ></app-business-card>
+      <div
+        *ngIf="!isLoading && filteredCategories?.length > 0"
+        style="padding-bottom: calc(env(safe-area-inset-bottom) + 15px)"
+      >
+        <app-category-card
+          *ngFor="let category of filteredCategories"
+          [category]="category"
+          (onItemSelect)="openDetails($event,category)"
+        >
+        </app-category-card>
+      </div>
+    </div>
+    <!--   <ion-toolbar
+      class="option-chip-toolbar category-chip"
+      *ngIf="!stickyHeader && !isLoading && categories?.length > 0"
+      id="toolbarChips"
+    >
+      <ion-buttons slot="start">
+        <ion-button
+          class="search-icon-button ml"
+          [ngClass]="{hide : showSearchBar}"
+          (click)="showSearchBar = true"
+        >
+          <ion-icon slot="icon-only" src="assets/icons/search.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-searchbar
+        *ngIf="showSearchBar"
+        class="location-search-bar no-padding"
+        [placeholder]="'filter-categories' | translate"
+        inputmode="text"
+        type="text"
+        [debounce]="250"
+        [ngClass]="{hide: !showSearchBar}"
+        showCancelButton="always"
+        (ionCancel)="cancelSearch()"
+        (ionClear)="clearSearch()"
+        (ionChange)="search($event)"
+        mode="ios"
+      ></ion-searchbar>
+      <div
+        class="horizontal-scroll"
+        [ngClass]="{hide : showSearchBar}"
+        *ngIf="categories?.length > 0"
+        id="chip-scroll"
+      >
+        <div class="scroll---div">
+          <ion-chip
+            (click)="scrollToElement(category.id)"
+            *ngFor="let category of categories"
+            class="item-chip"
+            [id]="'item-chip' + category.id"
+          >
+            {{category.name}}
+          </ion-chip>
+        </div>
+      </div>
+    </ion-toolbar>
+    <ion-toolbar class="option-chip-toolbar category-chip" *ngIf="isLoading">
+      <header-menu-loading-placeholder
+        *ngIf="isLoading"
+      ></header-menu-loading-placeholder>
+    </ion-toolbar> -->
+  </ng-container>
+
+  <div
+    class="footer-button-wrapper"
+    *ngIf="isCartItemAvailable && filteredCategories?.length > 0"
+    slot="fixed"
+    [@fadeInOut]
+  >
+    <ion-button
+      size="block"
+      class="theme-button checkout-button"
+      color="theme-green"
+      (click)="checkOut()"
+    >
+      <ion-badge class="count-badge" [class.cart-zoom]="isAnimate">
+        {{cartDetail?.count}}
+      </ion-badge>
+      {{'checkout'|translate}}
+      <div class="price-desc" [class.cart-zoom]="isAnimate">
+        {{cartDetail?.price / 100 | currency: 'EUR':'symbol-narrow':'1.2-2'}}
+      </div>
+    </ion-button>
+  </div>
+</ion-content>

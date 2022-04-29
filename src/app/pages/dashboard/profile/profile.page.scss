@@ -1,0 +1,124 @@
+ion-content {
+  --padding-top: 0px;
+}
+
+.user-desc-item {
+  --padding-start: 0px;
+  margin-top: 14px;
+  & .user-profile {
+    background: var(--user-profile-background);
+    width: 54px;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+    color: var(--user-profile-name-color);
+    font-size: var(--font-size-medium-22);
+    font-weight: var(--font-weight-normal);
+  }
+  & ion-label {
+    & .name {
+      font-weight: var(--font-weight-bold);
+      font-size: 18px;
+      color: var(--ion-color-theme-dark) !important;
+      line-height: 1;
+    }
+    & .order-count {
+      color: var(--light-text);
+      font-size: var(--font-size-normal);
+      line-height: 1;
+      margin-top: 3px;
+      height: 17px;
+    }
+    & .create-account {
+      color: var(--ion-color-gold);
+      font-size: 14px;
+      margin-top: 3px;
+      line-height: 21px;
+      display: flex;
+      justify-content: space-between;
+      margin-right: 14px;
+    }
+  }
+}
+@mixin bold-title-text {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold-700);
+}
+@mixin light-menu-text {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-normal-500);
+  color: var(--light-text);
+}
+.options-wrapper {
+  margin-top: 30px;
+  & .option-title {
+    @include bold-title-text();
+    padding: 0px 27px;
+  }
+  & .options-list {
+    margin-top: 8px;
+    & .option-item {
+      padding: 0px 27px;
+      &.flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      position: relative;
+      overflow: hidden;
+      margin-top: 3px;
+      & .option-name {
+        @include light-menu-text();
+      }
+      & .arrow-icon {
+        color: var(--light-text);
+        font-size: var(--font-size-medium-22);
+      }
+    }
+  }
+}
+
+.divider {
+  border-top: 0.4px solid #ececec;
+  width: 236px;
+  height: 0px;
+  margin: auto;
+}
+
+.logout-option-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-top: 10px;
+  & ion-icon {
+    margin-right: 6px;
+    color: var(--secondary-text);
+  }
+  & div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: var(--font-size-normal);
+    color: var(--tab-bar-profile-icon-color);
+  }
+}
+
+.item {
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --inner-padding-end: 0px;
+  --background: var(--brand-background);
+  ion-label {
+    margin: 0px;
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-normal-500);
+    color: var(--light-text);
+  }
+  ion-icon {
+    margin-right: 0px;
+    color: var(--light-text);
+    font-size: var(--font-size-medium-22);
+  }
+}

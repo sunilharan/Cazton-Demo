@@ -1,0 +1,31 @@
+<div class="content">
+  <div class="header">
+    <div class="alert-title">
+      {{ "add-tip" | translate }}
+    </div>
+    <div class="alert-sub-title">
+      {{ "add-tip-subtitle" | translate }}
+    </div>
+  </div>
+  <div class="input-wrapper">
+    <ion-input
+      type="text"
+      [placeholder]="'enter-amount' | translate"
+      inputmode="decimal"
+      [(ngModel)]="amount"
+    >
+    </ion-input>
+  </div>
+  <div class="button-wrapper">
+    <div class="cancle-btn">
+      <ion-button expand="block" fill="clear" (click)="close('CANCAL', null)">
+        {{ "cancel" | translate }}
+      </ion-button>
+    </div>
+    <div class="add-btn">
+      <ion-button expand="block" fill="clear" (click)="close('ADD', amount)">
+        {{ "add" | translate }}
+      </ion-button>
+    </div>
+  </div>
+</div>

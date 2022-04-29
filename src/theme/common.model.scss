@@ -1,0 +1,78 @@
+.custom-model__location-select,
+.custom-model__product-detail,
+.custom-model__filter-screen,
+.custom-model__edit-profile,
+.custom-model__restaurant-info {
+  --height: 90%;
+  .modal-shadow {
+    bottom: 0px !important;
+  }
+  &::part(content) {
+    position: absolute;
+    contain: strict;
+    top: unset !important;
+    bottom: 0px !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+  }
+  .statusbar-padding {
+    padding-top: 0px !important;
+  }
+  &::part(ion-backdrop) {
+    visibility: initial !important;
+    --background: #fff !important;
+    --backdrop-opacity: 0.4;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.custom-model__product-detail {
+  ion-backdrop {
+    --backdrop-opacity: 0.6;
+    backdrop-filter: blur(10px);
+  }
+}
+
+.custom-popover__add-tip {
+  --backdrop-opacity: 0.4 !important;
+  &::part(content) {
+    top: 50% !important;
+    left: 50% !important;
+    width: 80%;
+    // height: 280px;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+.custom-picker {
+  & .picker-toolbar {
+    & button {
+      color: var(--ion-color-link) !important;
+    }
+  }
+}
+
+.single-select-alert {
+  font-family: 'Poppins';
+  [aria-checked='true'].sc-ion-alert-ios .alert-radio-label.sc-ion-alert-ios {
+    color: var(--ion-color-link);
+  }
+  [aria-checked='true'].sc-ion-alert-ios .alert-radio-inner.sc-ion-alert-ios {
+    border-color: var(--ion-color-link);
+  }
+
+  .alert-button {
+    color: var(--primary-text);
+    font-size: 15px;
+    & .alert-button-inner {
+      font-weight: 700;
+    }
+    &.alert-button-role-cancel {
+      color: var(--ion-color-theme-red);
+      & .alert-button-inner {
+        font-weight: normal;
+      }
+    }
+  }
+}
