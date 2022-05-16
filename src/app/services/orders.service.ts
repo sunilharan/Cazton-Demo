@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Order, OrderHistoryModel } from '../interfaces/order.model';
 import { ApiResponse } from '../interfaces/response.model';
 import { CommonDataService } from './common-data.service';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,16 @@ export class OrdersService {
   constructor(
     private http: HttpClient,
     private platformService: PlatformService,
-    private commonDataService: CommonDataService
+    private commonDataService: CommonDataService,
+    private languageService: LanguageService
   ) {
-    this.orderHistory$.next(this.commonDataService.orders);
+    this.languageService.language$.subscribe((lan) => {
+      if (lan) {
+        this.orderHistory$.next(this.commonDataService.orders[lan]);
+      } else {
+        this.orderHistory$.next(this.commonDataService.orders.en);
+      }
+    });
   }
 
   placeOrder(orderObject: Order) {

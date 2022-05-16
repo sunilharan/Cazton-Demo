@@ -395,6 +395,9 @@ ion-refresher {
 }
 
 .business-card {
+  &.shadow {
+    box-shadow: 15px 15px 30px rgb(211 209 216 / 25%);
+  }
   .swiper-pagination-fraction,
   .swiper-pagination-custom,
   .swiper-container-horizontal > .swiper-pagination-bullets {

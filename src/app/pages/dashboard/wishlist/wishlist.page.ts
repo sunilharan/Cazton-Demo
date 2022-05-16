@@ -52,11 +52,11 @@ export class WishlistPage implements OnInit, OnDestroy {
     this.sholdStopSubscription?.unsubscribe();
   }
 
-  async openCategoriesPage(id) {
+  async openCategoriesPage(restuarant) {
     const restuarntId = this.cartService.getRestaurantId();
     if (restuarntId && this.cartCount > 0) {
-      if (id == restuarntId) {
-        return this.proceedToCategoryPage(id);
+      if (restuarant?.id == restuarntId) {
+        return this.proceedToCategoryPage(restuarant);
       } else {
         let title = '';
         if (this.platformService.platformDetail$.getValue()) {
@@ -71,22 +71,23 @@ export class WishlistPage implements OnInit, OnDestroy {
         if (action?.action == 'CONFIRM') {
           this.cartService.clear();
           this.cartService.removeCustomTips();
-          return this.proceedToCategoryPage(id);
+          return this.proceedToCategoryPage(restuarant);
         }
         return;
       }
-    } else if (restuarntId && restuarntId != id) {
+    } else if (restuarntId && restuarntId != restuarant) {
       this.cartService.removePreorderTime();
-      return this.proceedToCategoryPage(id);
+      return this.proceedToCategoryPage(restuarant);
     } else {
-      return this.proceedToCategoryPage(id);
+      return this.proceedToCategoryPage(restuarant);
     }
   }
 
-  private proceedToCategoryPage(id: string) {
-    this.cartService.setRestaurantId(id);
-    this.navigationService.navigateForwardWithExtras('app/category', {
-      restaurantId: id,
+  private proceedToCategoryPage(restaurant) {
+    this.cartService.setRestaurantId(restaurant);
+    this.navigationService.navigateForwardWithExtras('/category', {
+      restaurantId: restaurant?.id,
+      restaurant,
     });
   }
 }

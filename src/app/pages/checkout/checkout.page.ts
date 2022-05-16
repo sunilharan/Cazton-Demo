@@ -86,13 +86,14 @@ export class CheckoutPage implements OnInit, OnDestroy {
 
   private shouldStopSubscription: Subject<any> = new Subject();
   private isLocationModalOpen = false;
+  private lan: 'en' | 'de' = 'en';
 
   constructor(
     private navigationService: NavigationService,
     private modalController: ModalController,
     private cartService: CartService,
     private uiService: CommonUiService,
-    private translateConfig: LanguageService,
+    private languageService: LanguageService,
     private formBuilder: FormBuilder,
     private mapboxServiceService: MapboxService,
     private helperService: Helper,
@@ -231,10 +232,20 @@ export class CheckoutPage implements OnInit, OnDestroy {
       }
     });
 
-    const restaurantId = parseInt(this.cartService.getRestaurantId());
-    this.restaurant = this.commonService.restaurants.filter(
-      (res) => res.id == restaurantId
-    )[0];
+    this.languageService.language$
+      .pipe(takeUntil(this.shouldStopSubscription.asObservable()))
+      .subscribe((lan: any) => {
+        if (lan) {
+          this.lan = lan;
+        }
+        const restaurantId = parseInt(this.cartService.getRestaurantId());
+        this.restaurant = this.commonService.restaurants[this.lan].filter(
+          (res) => res.id == restaurantId
+        )[0];
+        this.checkRestaurantExistInWishlistAndOutOfDeliveryArea(
+          this.restaurant?.id
+        );
+      });
 
     this.mapboxServiceService.currentAddress$
       .pipe(takeUntil(this.shouldStopSubscription.asObservable()))
@@ -247,10 +258,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
           });
         }
       });
-
-    this.checkRestaurantExistInWishlistAndOutOfDeliveryArea(
-      this.restaurant?.id
-    );
   }
 
   updateDelivery(cart: any) {
@@ -307,7 +314,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
     const wishlist = this.wishlistService.wishlistItems$.getValue();
     const isFavorite = wishlist.some((el) => el.id == id);
     if (isFavorite) {
-      const restaurants = this.commonService.restaurants;
+      const restaurants = this.commonService.restaurants[this.lan];
       const found = restaurants?.some((el) => el.id == id);
       if (!found) {
         const wishListElement = wishlist.filter((e) => e.id == id)[0];
@@ -368,13 +375,13 @@ export class CheckoutPage implements OnInit, OnDestroy {
 
   async removeItemFromCart(item: CartItem) {
     const action = await this.uiService.showConfirmationAlert(
-      this.translateConfig.getVal('checkout'),
-      this.translateConfig.getVal('cart-item-remove-confirmation')
+      this.languageService.getVal('checkout'),
+      this.languageService.getVal('cart-item-remove-confirmation')
     );
     if (action?.action == 'CONFIRM') {
       this.cartService.remove(item);
       this.uiService.showToast(
-        this.translateConfig.getVal('item-removed-from-cart'),
+        this.languageService.getVal('item-removed-from-cart'),
         'success'
       );
     }
@@ -404,9 +411,9 @@ export class CheckoutPage implements OnInit, OnDestroy {
         ? pickerOptions.length
         : pickerOptions[0].length,
       pickerOptionsList: pickerOptions,
-      dismissTitle: await this.translateConfig.getVal('cancel'),
+      dismissTitle: await this.languageService.getVal('cancel'),
       dismissHandler: () => {},
-      actionTitle: await this.translateConfig.getVal('done'),
+      actionTitle: await this.languageService.getVal('done'),
       multiColumn: multicolumn,
       isCustomValues,
       cssClass: 'custom-picker',

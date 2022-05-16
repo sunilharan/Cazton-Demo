@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.pizza.delicious',
-  appName: 'Pizza Delicious',
+  appName: 'La Milano',
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {

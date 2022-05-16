@@ -79,7 +79,7 @@ export class HomePage implements OnInit, OnDestroy {
     private uiService: CommonUiService,
     private localStorageService: LocalStorageService,
     private cartService: CartService,
-    private translateConfig: LanguageService,
+    private languageService: LanguageService,
     private platformService: PlatformService,
     private dataService: CommonDataService
   ) {}
@@ -112,10 +112,19 @@ export class HomePage implements OnInit, OnDestroy {
       () => {}
     );
 
-    this.restaurants = this.dataService.restaurants;
-    this.filteredRestaurants = this.restaurants;
-
-    this.isRestaurantExist = true;
+    this.languageService.language$
+      .pipe(takeUntil(this.unsubscribeSignal.asObservable()))
+      .subscribe((lan) => {
+        if (lan) {
+          this.restaurants = this.dataService.restaurants[lan];
+          this.filteredRestaurants = this.restaurants;
+          this.isRestaurantExist = true;
+        } else {
+          this.restaurants = this.dataService.restaurants.en;
+          this.filteredRestaurants = this.restaurants;
+          this.isRestaurantExist = true;
+        }
+      });
   }
 
   ionViewDidEnter() {}
@@ -137,7 +146,7 @@ export class HomePage implements OnInit, OnDestroy {
         }
         const action = await this.uiService.showConfirmationAlert(
           title,
-          this.translateConfig.getVal(
+          this.languageService.getVal(
             'different-restaurant-cart-validation-error-text'
           )
         );

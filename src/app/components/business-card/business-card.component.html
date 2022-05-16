@@ -2,6 +2,7 @@
   class="business-card card"
   (click)="cardClicked.emit(); $event.stopPropagation()"
   [ngClass]="{ 'p-10': page === 'mapbox' }"
+  [class.shadow]="page === 'home'"
 >
   <div style="position: relative" *ngIf="page === 'home' || page === 'mapbox'">
     <img

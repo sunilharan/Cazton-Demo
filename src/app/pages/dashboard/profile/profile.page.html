@@ -1,5 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Profile</ion-title>
+    <ion-title>{{'profile' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+  <div class="options-wrapper">
+    <div class="options-list">
+      <div
+        class="option-item flex ion-activatable"
+        (click)="openSelectLangauge()"
+      >
+        <div class="option-name">{{'language'|translate}}</div>
+        <ion-icon class="arrow-icon" name="chevron-forward-outline"></ion-icon>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
+      <ion-item hidden>
+        <ion-select
+          #selectLanguage
+          [interfaceOptions]="langaugeSelectOptions"
+          [(ngModel)]="defaultLanguage"
+          (ionChange)="changeLanguage($event)"
+        >
+          <ion-select-option value="en">{{"en" | translate}}</ion-select-option>
+          <ion-select-option value="de">{{"de"|translate}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

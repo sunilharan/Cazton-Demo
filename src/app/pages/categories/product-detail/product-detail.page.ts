@@ -64,19 +64,23 @@ export class ProductDetailPage implements OnInit, OnDestroy {
    * array['variantId']['optionId'] = {values}`radio button` | values[]`checkbox`
    */
   public selectedItems = [];
+  private lan: 'en' | 'de' = 'en';
 
   constructor(
     public uiService: CommonUiService,
     private modalController: ModalController,
     private platform: Platform,
     private alertController: AlertController,
-    private translateConfig: LanguageService,
+    private languageService: LanguageService,
     private cartService: CartService,
     private cdRef: ChangeDetectorRef,
     private commonDataService: CommonDataService
   ) {}
 
   ngOnInit() {
+    this.languageService.language$.subscribe((lan: any) => {
+      this.lan = lan;
+    });
     if (this.dishId) {
       this.loadData(this.dishId, this.preSelectOrderDate);
     }
@@ -106,7 +110,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         )
       ) {
         const element = this.selectedItems[this.selectedVariant.rank][key];
-        if (typeof element === 'object') {
+        if (typeof element == 'object') {
           if (Array.isArray(element)) {
             if (element?.length > 0) {
               element.forEach((e) => {
@@ -129,7 +133,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
   }
 
   loadData(id: number | string, date: string | null) {
-    this.dish = { ...this.commonDataService.dish, ...this.dish };
+    this.dish = { ...this.commonDataService.dish[this.lan], ...this.dish };
     if (this.dish?.id) {
       if (this.mode == 'ADD') {
         this.setPreselectVariant();
@@ -196,9 +200,9 @@ export class ProductDetailPage implements OnInit, OnDestroy {
   private getOptionGroupList() {
     if (this.selectedVariant && this.selectedVariant?.extras?.length > 0) {
       this.selectedVariant?.extras?.forEach((extrasId) => {
-        const extras: Extras = this.extras.filter((e) => e.id === extrasId)
+        const extras: Extras = this.extras.filter((e) => e.id == extrasId)
           .length
-          ? this.extras.filter((e) => e.id === extrasId)[0]
+          ? this.extras.filter((e) => e.id == extrasId)[0]
           : null;
         if (extras) {
           extras.optiongroups?.forEach((options) => {
@@ -304,7 +308,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         const element =
           this.selectedItems[this.selectedVariant.rank]['opt' + option.id];
         if (element) {
-          if (typeof element === 'object') {
+          if (typeof element == 'object') {
             if (Array.isArray(element)) {
               if (element?.length < option.min_sel) {
                 return option;
@@ -332,7 +336,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     } else {
       option.unfulfilled = true;
       this.uiService.showToast(
-        this.translateConfig.getVal('missing-options') + option.min_sel,
+        this.languageService.getVal('missing-options') + option.min_sel,
         'danger'
       );
     }
@@ -346,7 +350,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
           this.proceedToCart();
         } else {
           this.uiService.showToast(
-            this.translateConfig.getVal('restaurant-mis-match'),
+            this.languageService.getVal('restaurant-mis-match'),
             'danger'
           );
           return;
@@ -412,7 +416,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         )
       ) {
         const element = this.selectedItems[this.selectedVariant.rank][key];
-        if (typeof element === 'object') {
+        if (typeof element == 'object') {
           if (Array.isArray(element)) {
             if (element?.length > 0) {
               element.forEach((e) => {
@@ -439,9 +443,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
   }
 
   selectVariant(ev) {
-    //const selectedValue: Variants = ev?.detail?.value;
-    /*   const rank: number = ev?.detail?.value;
-    this.selectedVariant = this.getVariantByRank(rank); */
     const index: number = ev?.detail?.value;
     this.selectedVariant = this.dish?.variants[index];
     const selectedValue: Variants = this.selectedVariant;
@@ -451,9 +452,9 @@ export class ProductDetailPage implements OnInit, OnDestroy {
       this.itemCount = 1;
       if (selectedValue.extras?.length) {
         selectedValue.extras?.forEach((extrasId) => {
-          const extras: Extras = this.extras.filter((e) => e.id === extrasId)
+          const extras: Extras = this.extras.filter((e) => e.id == extrasId)
             .length
-            ? this.extras.filter((e) => e.id === extrasId)[0]
+            ? this.extras.filter((e) => e.id == extrasId)[0]
             : null;
           if (extras) {
             extras.optiongroups?.forEach((options) => {
@@ -551,7 +552,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         const ch: IonCheckbox = ev?.target;
         ch.checked = false;
         this.uiService.showToast(
-          this.translateConfig.getVal('to-much-options') + option.max_sel,
+          this.languageService.getVal('to-much-options') + option.max_sel,
           'danger'
         );
       }
@@ -567,7 +568,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
 
   async presentAddCommentsAlert() {
     const alert = await this.alertController.create({
-      header: this.translateConfig.getVal('add-comment'),
+      header: this.languageService.getVal('add-comment'),
       message: '',
       cssClass: 'add-comments-alert',
       inputs: [
@@ -575,18 +576,18 @@ export class ProductDetailPage implements OnInit, OnDestroy {
           name: 'comment',
           id: 'comment',
           type: 'text',
-          placeholder: this.translateConfig.getVal('add-comment'),
+          placeholder: this.languageService.getVal('add-comment'),
           value: this.comments,
         },
       ],
       buttons: [
         {
-          text: this.translateConfig.getVal('cancel'),
+          text: this.languageService.getVal('cancel'),
           role: 'cancel',
           handler: () => {},
         },
         {
-          text: this.translateConfig.getVal('add'),
+          text: this.languageService.getVal('add'),
           role: 'add',
           handler: (ev) => {
             if (ev && ev?.comment) {
@@ -607,7 +608,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
   async addRemoveItemCount(incre: boolean = false) {
     if (!this.selectedVariant?.rank) {
       this.uiService.showToast(
-        this.translateConfig.getVal('choose-size-error'),
+        this.languageService.getVal('choose-size-error'),
         'danger'
       );
       return;
@@ -617,10 +618,10 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     } else {
       if (this.itemCount) {
         const count = this.itemCount - 1;
-        if (this.mode == 'EDIT' && count === 0) {
+        if (this.mode == 'EDIT' && count == 0) {
           const confirm = await this.uiService.showConfirmationAlert(
-            this.translateConfig.getVal('cart'),
-            this.translateConfig.getVal('delete-cart-item-confirmation')
+            this.languageService.getVal('cart'),
+            this.languageService.getVal('delete-cart-item-confirmation')
           );
           if (confirm.action == 'CONFIRM') {
             this.cartService.remove(this.cartItem);

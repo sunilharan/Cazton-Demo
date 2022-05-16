@@ -1,0 +1,14 @@
+{
+	"appId": "com.pizza.delicious",
+	"appName": "La Milano",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"FirebaseAuthentication": {
+			"skipNativeAuth": false,
+			"providers": [
+				"google.com"
+			]
+		}
+	}
+}

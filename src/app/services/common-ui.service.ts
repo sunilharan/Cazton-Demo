@@ -84,10 +84,10 @@ export class CommonUiService {
   }
 
   fixEncoding(text: string): string {
-    let outT = text.split('&quot;').join('"');
+    let outT = text?.split('&quot;')?.join('"');
     // eslint-disable-next-line @typescript-eslint/quotes
-    outT = outT.split('&#039;').join("'");
-    outT = outT.split('&amp;').join('&');
+    outT = outT?.split('&#039;')?.join("'");
+    outT = outT?.split('&amp;')?.join('&');
     return outT;
   }
 }

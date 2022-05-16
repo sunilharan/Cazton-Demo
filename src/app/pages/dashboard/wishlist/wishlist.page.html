@@ -4,7 +4,7 @@
     <div *ngFor="let restaurant of wishlistItems">
       <app-business-card
         [restaurant]="restaurant"
-        (cardClicked)="openCategoriesPage(restaurant?.id)"
+        (cardClicked)="openCategoriesPage(restaurant)"
       >
       </app-business-card>
     </div>

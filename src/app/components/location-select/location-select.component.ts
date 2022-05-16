@@ -7,6 +7,7 @@ import {
   MapboxService,
 } from 'src/app/services/mapbox-service.service';
 import { CommonUiService } from 'src/app/services/common-ui.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-location-select',
@@ -18,21 +19,28 @@ export class LocationSelectComponent implements OnInit {
   placeList: Feature[] = [];
   selectedAddress: Feature = null;
   isLoading = false;
-
+  private lan: 'en' | 'de' = 'en';
   constructor(
     private modalController: ModalController,
     private mapboxService: MapboxService,
     private alertController: AlertController,
     private translate: TranslateService,
+    private languageService: LanguageService,
     private uiService: CommonUiService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.languageService.language$.subscribe((lan: any) => {
+      if (lan) {
+        this.lan = lan;
+      }
+    });
+  }
 
   search(event: any) {
     const searchTerm = event.target.value.toLowerCase();
     if (searchTerm && searchTerm.length > 0) {
-      this.placeList = this.mapboxService.locations;
+      this.placeList = this.mapboxService.locations[this.lan];
     } else {
     }
   }

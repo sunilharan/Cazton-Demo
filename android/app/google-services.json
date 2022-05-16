@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1026219069816",
+    "project_id": "pizza-delicious-6da2d",
+    "storage_bucket": "pizza-delicious-6da2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026219069816:android:8b2813b877169acd55388d",
+        "android_client_info": {
+          "package_name": "com.pizza.delicious"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026219069816-bhbqg3fatrfvntetbm28r1bagkom8mg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pizza.delicious",
+            "certificate_hash": "6e814f36d46ebd61f2239196b613e64fe7641aaa"
+          }
+        },
+        {
+          "client_id": "1026219069816-pi6f9o8drnosihlokq8hjbei4gtm3i6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN0BAV_97Eymh8Df11oBozimnj4ac3vV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026219069816-pi6f9o8drnosihlokq8hjbei4gtm3i6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

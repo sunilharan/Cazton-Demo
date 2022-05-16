@@ -73,7 +73,7 @@ export class CategoryPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     public uiService: CommonUiService,
     private router: Router,
-    private translateConfig: LanguageService,
+    private languageService: LanguageService,
     private ngZone: NgZone,
     private cartService: CartService,
     private wishlistService: WishlistService,
@@ -108,9 +108,17 @@ export class CategoryPage implements OnInit, OnDestroy {
           ? this.selectedPreOrderDate
           : '';
       if (restaurantId) {
-        this.categories = this.commonDataService.categories;
-
-        this.filteredCategories = this.categories;
+        this.languageService.language$
+          .pipe(takeUntil(this.shouldStopSubscriptions.asObservable()))
+          .subscribe((lan) => {
+            if (lan) {
+              this.categories = this.commonDataService.categories[lan];
+              this.filteredCategories = this.categories;
+            } else {
+              this.categories = this.commonDataService.categories.en;
+              this.filteredCategories = this.categories;
+            }
+          });
       }
     }
 
@@ -308,7 +316,7 @@ export class CategoryPage implements OnInit, OnDestroy {
     this.wishlistService.add(this.restuarant as WishlistRestaurant);
     setTimeout(() => {
       this.uiService.showToast(
-        this.translateConfig.getVal('item-added-from-wishlist'),
+        this.languageService.getVal('item-added-from-wishlist'),
         'success'
       );
     }, 200);
@@ -316,14 +324,14 @@ export class CategoryPage implements OnInit, OnDestroy {
 
   async removeFromWishlist() {
     const action = await this.uiService.showConfirmationAlert(
-      this.translateConfig.getVal('wishlist'),
-      this.translateConfig.getVal('wishlist-item-remove-confirmation')
+      this.languageService.getVal('wishlist'),
+      this.languageService.getVal('wishlist-item-remove-confirmation')
     );
     if (action?.action == 'CONFIRM') {
       this.wishlistService.remove(this.restuarant as WishlistRestaurant);
       setTimeout(() => {
         this.uiService.showToast(
-          this.translateConfig.getVal('item-removed-from-wishlist'),
+          this.languageService.getVal('item-removed-from-wishlist'),
           'success'
         );
       }, 200);
